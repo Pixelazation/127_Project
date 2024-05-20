@@ -26,7 +26,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        Pam pam pam jiayouuuuu!!!
+        I am Paul Muadib Atreides. Duke of Arrakis!!!
       </p>
     </>
   )
