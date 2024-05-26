@@ -1,59 +1,312 @@
-export default function HomePage() {
+import React from 'react';
+
+import Rectangle5Image from '../testAsset/images/homepage_Rectangle_5.png';
+
+import LifesaversPaperWokImage from '../testAsset/images/homepage_Lifesavers_Paper_Wok.png';
+
+import Ellipse1Image from '../testAsset/images/homepage_Ellipse.png';
+
+import Image1Image from '../testAsset/images/homepage_image_1.png';
+
+import Rectangle7Image from '../testAsset/images/homepage_Rectangle_7.png';
+
+import Photo621766538281941Image from '../testAsset/images/homepage_photo_6217665382819412830_m_removebg_preview_1.png';
+
+import {
+  styled
+} from '@mui/material/styles';
+
+const HomePage1 = styled("div")({
+  backgroundColor: `rgba(230, 247, 255, 1)`,
+  display: `flex`,
+  position: `relative`,
+  isolation: `isolate`,
+  flexDirection: `row`,
+  width: `100vw`,
+  height: `100vh`,
+  justifyContent: `center`,
+  padding: `0px`,
+  boxSizing: `border-box`,
+  overflow: `hidden`,
+});
+
+const TopBar = styled("img")({
+  height: `54px`,
+  width: `100vw`,
+  position: `absolute`,
+  left: `0px`,
+  top: `0px`,
+});
+
+//The thing on the right
+const BrowseRequest = styled("div")({
+  display: `flex`,
+  position: `absolute`,
+  isolation: `isolate`,
+  flexDirection: `row`,
+  justifyContent: `center`,
+  padding: `0px`,
+  boxSizing: `border-box`,
+  width: `286.02px`,
+  height: `308px`,
+  top: `200px`,
+  right: '200px'
+});
+
+//The thing on the left
+const AddForms = styled("div")({
+  display: `flex`,
+  position: `absolute`,
+  isolation: `isolate`,
+  flexDirection: `row`,
+  justifyContent: `center`,
+  padding: `0px`,
+  boxSizing: `border-box`,
+  width: `286.02px`,
+  height: `308px`,
+  top: `200px`,
+  left: '200px'
+});
+
+//This is the rectangle thing on the addslip and view slip
+const Rectangle11 = styled("div")({
+  display: 'flex',
+  backgroundColor: `rgba(181, 218, 255, 1)`,
+  borderRadius: `20px`,
+  width: `286.02px`,
+  height: `238.4px`,
+  position: `absolute`,
+  justifyContent: `center`,
+  alignItems: `center`,
+  alignContent: 'center',
+  top: `10px`,
+});
+
+//There are two icon divs, it's so that the ellipse and the image are under one div
+const Icon = styled("div")({
+  display: 'flex',
+  backgroundColor: `rgba(181, 218, 255, 1)`,
+  borderRadius: `20px`,
+  width: `286.02px`,
+  height: `238.4px`,
+  position: `absolute`,
+  justifyContent: `center`,
+  alignItems: `center`,
+  alignContent: 'center',
+  top: `10px`,
+});
+
+const Ellipse1 = styled("img")({
+  display: 'flex',
+  height: `120px`,
+  width: `120px`,
+  position: `absolute`,
+  top: `0px`,
+  justifyContent: `center`,
+  alignItems: `center`,
+  alignContent: 'center',
+});
+
+//The icon on the viewslip
+const Image1 = styled("img")({
+  height: `92.27px`,
+  width: `98.64px`,
+  objectFit: `cover`,
+  position: `absolute`,
+  top: `15px`,
+});
+
+//The icon for the addslip
+const LifesaversPaperWok = styled("img")({
+  height: `110px`,
+  width: `110px`,
+  objectFit: `cover`,
+  position: `absolute`,
+  left: `90px`,
+  top: `5px`,
+});
+
+const BrowseButton = styled("div")({
+  display: `flex`,
+  position: `absolute`,
+  isolation: `isolate`,
+  flexDirection: `row`,
+  justifyContent: `center`,
+  padding: `0px`,
+  boxSizing: `border-box`,
+  width: `162.03px`,
+  height: `65.48px`,
+  left: `60px`,
+  top: `150px`,
+});
+
+//These are buttons for the viewslip and addslip
+const Button = styled("div")({
+  display: 'flex',
+  backgroundColor: `rgba(146, 193, 240, 1)`,
+  border: `1px solid rgba(0, 0, 0, 1)`,
+  boxSizing: `border-box`,
+  borderRadius: `35px`,
+  width: `162.03px`,
+  height: `65.48px`,
+  position: `absolute`,
+  top: `0px`,
+  justifyContent: 'center',
+});
+
+//As its name implies
+const ButtonText = styled("div")({
+  textAlign: `center`,
+  whiteSpace: `pre-wrap`,
+  fontSynthesis: `none`,
+  color: `rgba(0, 0, 0, 1)`,
+  fontStyle: `normal`,
+  fontFamily: `JejuMyeongjo`,
+  fontWeight: `400`,
+  fontSize: `20px`,
+  letterSpacing: `0px`,
+  textDecoration: `none`,
+  textTransform: `none`,
+  width: `145px`,
+  position: `absolute`,
+  left: `7px`,
+  top: `16px`,
+});
+
+const NavBar = styled("div")({
+  display: `flex`,
+  position: `fixed`,
+  flexDirection: `row`,
+  justifyContent: `flex-start`,
+  alignItems: `flex-start`,
+  padding: `0px`,
+  boxSizing: `border-box`,
+  width: `58px`,
+  height: `54px`,
+  right: '0px',
+  top: `0px`,
+  borderWidth: '1px',
+  borderColor: 'black'
+});
+
+//This is a div which contains both the addslip and viewslip, to prevent them from overlapping when window size changes
+const BoxThing = styled("div")({
+  display: `flex`,
+  position: `fixed`,
+  flexDirection: `row`,
+  justifyContent: `center`,
+  alignItems: `center`,
+  alignContent: 'center',
+  padding: `0px`,
+  boxSizing: `border-box`,
+  width: '1200px',
+  height: '10px',
+  top: '10%',
+});
+
+//Rectangles 7, 8, and 6 are just the three bar things on the nav bar
+const Rectangle7 = styled("img")({
+  height: `5.28px`,
+  width: `39.16px`,
+  position: `absolute`,
+  left: `9px`,
+  top: `38px`,
+});
+
+const Rectangle8 = styled("img")({
+  height: `5.28px`,
+  width: `39.16px`,
+  position: `absolute`,
+  left: `8px`,
+  top: `24px`,
+});
+
+const Rectangle6 = styled("img")({
+  height: `5.28px`,
+  width: `39.16px`,
+  position: `absolute`,
+  left: `9px`,
+  top: `9px`,
+});
+
+//The logo on top-left corner
+const Photo621766538281941 = styled("img")({
+  height: `49px`,
+  width: `48px`,
+  objectFit: `cover`,
+  position: `absolute`,
+  left: `22px`,
+  top: `3px`,
+});
+
+//The text right beside the logo on top-left corner
+const CareAndCureHub = styled("div")({
+  textAlign: `center`,
+  whiteSpace: `pre-wrap`,
+  fontSynthesis: `none`,
+  color: `rgba(0, 0, 0, 1)`,
+  fontStyle: `normal`,
+  fontFamily: `JejuMyeongjo`,
+  fontWeight: `400`,
+  fontSize: `36px`,
+  letterSpacing: `0px`,
+  textDecoration: `none`,
+  textTransform: `none`,
+  width: `388px`,
+  height: `62px`,
+  position: `absolute`,
+  left: `18px`,
+  top: `-4px`,
+});
+
+function HomePage() {
   return (
-    <div className="bg-[#E6F7FF] flex flex-col items-center p-[0_0_369px_0] w-[1363px] box-sizing-border">
-      <div className="bg-[#92C1F0] relative m-[0_0_136px_0] flex p-[0_77px_0_64.9px] w-[1440px] box-sizing-border">
-        <div className="relative flex flex-row justify-between w-[1298.1px] h-[fit-content] box-sizing-border">
-          <div className="m-[9px_18px_9px_0] inline-block w-[1171.1px] break-words font-['JejuMyeongjo'] font-normal text-[36px] text-[#000000]">
-          Care and Cure Hub
-          </div>
-          <div className="flex flex-row w-[109px] box-sizing-border">
-            <div className="bg-[#D9D9D9] m-[24px_50px_28px_0] w-[1px] h-[2px]">
-            </div>
-            <div className="relative flex p-[9px_9.8px_10.7px_8.5px] w-[58px] box-sizing-border">
-              <div className="relative flex flex-col items-center w-[39.7px] h-[fit-content] box-sizing-border">
-                <img className="rounded-[60px] m-[0_0_9.3px_0.5px] w-[39.2px] h-[5.3px]" />
-                <img className="rounded-[60px] m-[0_0.5px_9.1px_0] w-[39.2px] h-[5.3px]" />
-                <img className="rounded-[60px] m-[0_0_0_0.5px] w-[39.2px] h-[5.3px]" />
-              </div>
-              <div className="rounded-[5px] border-[1px_solid_#80ADDB] absolute left-[50%] bottom-[0px] translate-x-[-50%] w-[58px] h-[54px]">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="bg-[url('assets/images/Photo6217665382819412830MremovebgPreview2.png')] bg-[50%_50%] bg-cover bg-no-repeat absolute left-[22px] bottom-[2px] w-[48px] h-[49px]">
-        </div>
-      </div>
-      <div className="m-[0_0_0_38px] flex flex-row w-[763px] box-sizing-border">
-        <div className="relative m-[0_191px_0px_0] flex p-[72.9px_0_0_0] w-[286px] box-sizing-border">
-          <div className="rounded-[35px] relative flex p-[161.3px_0_53.8px_1.9px] w-[286px] h-[fit-content] box-sizing-border">
-            <div className="rounded-[20px] bg-[#B5DAFF] absolute left-[50%] top-[0px] translate-x-[-50%] w-[286px] h-[235.1px]">
-            </div>
-            <div className="rounded-[35px] border-[1px_solid_#000000] bg-[#92C1F0] absolute left-[50%] top-[139.1px] translate-x-[-50%] w-[162px] h-[65.7px]">
-            </div>
-            <span className="relative break-words font-['JejuMyeongjo'] font-normal text-[20px] text-[#000000]">
-            ADD SLIP<br />
-            
-            </span>
-          </div>
-          <img className="absolute left-[71.8px] top-[11.6px] w-[131.2px] h-[122.7px]" />
-          <div className="bg-[url('assets/images/LifesaversPaperWok.png')] bg-[50%_50%] bg-contain bg-no-repeat rotate-[13.279deg] absolute left-[48.7px] top-[0px] w-[176.5px] h-[144.7px]">
-          </div>
-        </div>
-        <div className="relative m-[8px_0_0_0] flex p-[61.6px_0_0_0] w-[286px] h-[fit-content] box-sizing-border">
-          <div className="rounded-[35px] relative flex p-[159.4px_0_59px_17px] w-[286px] h-[fit-content] box-sizing-border">
-            <div className="rounded-[20px] bg-[#B5DAFF] absolute left-[50%] top-[0px] translate-x-[-50%] w-[286px] h-[238.4px]">
-            </div>
-            <div className="rounded-[35px] border-[1px_solid_#000000] bg-[#92C1F0] absolute top-[137.4px] right-[57px] w-[162px] h-[65.5px]">
-            </div>
-            <span className="relative break-words font-['JejuMyeongjo'] font-normal text-[20px] text-[#000000]">
-            VIEW SLIPS
-            </span>
-          </div>
-          <img className="absolute left-[70.1px] top-[0px] w-[131.2px] h-[122.2px]" />
-          <div className="bg-[url('assets/images/Image1.png')] bg-[50%_50%] bg-cover bg-no-repeat absolute left-[87.6px] top-[15.1px] w-[98.6px] h-[92.3px]">
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+    <HomePage1>
+      <TopBar src={Rectangle5Image} loading='lazy' alt={"Rectangle 5"}/>
+      <BoxThing>
+        <AddForms>
+          <Rectangle11>
+            <Icon>
+              <Ellipse1 src={Ellipse1Image} loading='lazy' alt={"Ellipse"}/>
+              <LifesaversPaperWok src={LifesaversPaperWokImage} loading='lazy' alt={"1LifesaversPaperWokImage"}/>
+            </Icon>
+            <BrowseButton>
+              <Button>
+                <ButtonText>
+                  {`ADD SLIPS`}
+                </ButtonText>
+              </Button>
+            </BrowseButton>
+          </Rectangle11>
+        </AddForms>
+        <BrowseRequest>
+          <Rectangle11>
+            <Icon>
+              <Ellipse1 src={Ellipse1Image} loading='lazy' alt={"Ellipse"}/>
+              <Image1 src={Image1Image} loading='lazy' alt={"image 1"}/>
+            </Icon>
+            <BrowseButton>
+              <Button>
+                <ButtonText>
+                  {`VIEW SLIPS`}
+                </ButtonText>
+              </Button>
+            </BrowseButton>
+          </Rectangle11>
+        </BrowseRequest>
+      </BoxThing>
+      <NavBar>
+        <Rectangle7 src={Rectangle7Image} loading='lazy' alt={"Rectangle 7"}/>
+        <Rectangle8 src={Rectangle7Image} loading='lazy' alt={"Rectangle 7"}/>
+        <Rectangle6 src={Rectangle7Image} loading='lazy' alt={"Rectangle 7"}/>
+      </NavBar>
+      <Photo621766538281941 src={Photo621766538281941Image} loading='lazy' alt={"photo_6217665382819412830_m-removebg-preview 1"}/>
+      <CareAndCureHub>
+        {`Care and Cure Hub`}
+      </CareAndCureHub>
+    </HomePage1>
+    
+    );
+  }
+
+export default HomePage;  
