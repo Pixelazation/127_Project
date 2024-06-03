@@ -1,316 +1,106 @@
 import React from 'react';
+import ResponsiveAppBar from '../components/NavBar';
+import { DataGrid } from '@mui/x-data-grid';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import PreviewIcon from '@mui/icons-material/Preview';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import Rectangle5Image from '../testAsset/images/homepage_Rectangle_5.png';
+const columns = [
+  {field: 'preview', headerName:'Preview', width:100, sortable:false, 
+    renderCell: (params) => {
+      const onClick = (e) => {
+        e.stopPropagation(); // don't select this row after clicking
+        const api = params.api;
+        const thisRow = {};
+        api
+        .getAllColumns()
+        .filter((c) => c.field !== "__check__" && !!c)
+        .forEach(
+          (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+        );
+        return alert(JSON.stringify(thisRow, null, 4));
+      };
+    return <Button onClick={onClick}><PreviewIcon/></Button>;
+    }
+  },
+  {field: 'id', headerName: 'CS No.', width: 75 },
+  {field: 'date', headerName: 'Date', width: 120,},
+  {field: 'firstName', headerName: 'First Name', width: 150 },
+  {field: 'lastName', headerName: 'Last Name', width: 150 },
+  {field: 'company', headerName: 'Company', width: 150 },
+  {field: 'doctor', headerName: 'Doctor', width: 150 },
+  {field: 'edit', headerName:'Edit', width:100, sortable:false, 
+    renderCell: (params) => {
+      const onClick = (e) => {
+        e.stopPropagation(); // don't select this row after clicking
+        const api = params.api;
+        const thisRow = {};
+        api
+        .getAllColumns()
+        .filter((c) => c.field !== "__check__" && !!c)
+        .forEach(
+          (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+        );
+        return alert(JSON.stringify(thisRow, null, 4));
+      };
+    return <Button onClick={onClick}><EditIcon/></Button>;
+    }
+  },
+  {field: 'delete', headerName:'Delete', width:100, sortable:false, 
+    renderCell: (params) => {
+      const onClick = (e) => {
+        e.stopPropagation(); // don't select this row after clicking
+        const api = params.api;
+        const thisRow = {};
+        api
+        .getAllColumns()
+        .filter((c) => c.field !== "__check__" && !!c)
+        .forEach(
+          (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+        );
+        return alert(JSON.stringify(thisRow, null, 4));
+      };
+    return <Button onClick={onClick}><DeleteIcon/></Button>;
+    }
+  },
+];
 
-import LifesaversPaperWokImage from '../testAsset/images/homepage_Lifesavers_Paper_Wok.png';
+const rows = [
+  {preview:'test', id: 1, date: '2023-10-02', firstName:'Levi', lastName:'Cruz',  company:'ELINK', doctor:'M'},
+  { id: 2, date: '2023-10-3', firstName: 'Enrico', lastName: 'Villanueva', company: null, doctor: 'MQ'},		
+  { id: 3, date: '2023-10-9', firstName: 'Hiroshi', lastName: 'Tan', company: 'VA PLATINUM', doctor: 'D'},
+  { id: 4, date: '2023-10-11', firstName: 'Darryl', lastName: 'Tan', company: 'VA PLATINUM', doctor: 'D'},	
+  { id: 5, date: '2023-10-11', firstName: 'Mateo', lastName: 'Rodriguez', company: 'JFC', doctor: 'G'},		
+  { id: 6, date: '2023-10-11', firstName: 'Lara', lastName: 'Reyes', company: 'RUSTANS', doctor: 'A'},
+  { id: 7, date: '2023-10-12', firstName: 'Janelle', lastName: 'Uy', company: 'VA PLATINUM', doctor: 'MN'},		
+  { id: 8, date: '2023-10-14', firstName: 'Enrico', lastName: 'Villanueva', company: 'ELINK', doctor: 'MQ'},		
+  { id: 9, date: '2023-10-17', firstName: 'Rosario', lastName: 'Lagman', company: 'ARCENAS', doctor: 'SR'},		
+  { id: 10, date: '2023-10-22', firstName: 'Bianca', lastName: 'Panganiban', company: 'GLOBAL', doctor: 'L'},		
+  { id: 11, date: '2023-10-22', firstName: 'Avery', lastName: 'Hernandez', company: 'BELO', doctor: 'SN'},		
+  { id: 12, date: '2023-10-22', firstName: 'Rosario', lastName: 'Lagman', doctor: 'SR', company: 'ARCENAS'},		
+  { id: 13, date: '2023-10-26', firstName: 'Kim', lastName: 'Navarro', company: null, doctor: 'SR'},		
+  { id: 14, date: '2023-10-28', firstName: 'Louie', lastName: 'Morales', company: null, doctor: 'MQ'},		
+  { id: 15, date: '2023-10-28', firstName: 'Morgan', lastName: 'Fernandez', company: null, doctor: 'M'},
+];
 
-import Ellipse1Image from '../testAsset/images/homepage_Ellipse.png';
-
-import Image1Image from '../testAsset/images/homepage_image_1.png';
-
-import Rectangle7Image from '../testAsset/images/homepage_Rectangle_7.png';
-
-import Photo621766538281941Image from '../testAsset/images/homepage_photo_6217665382819412830_m_removebg_preview_1.png';
-
-import MyButton from '../MyButton';
-
-import {
-  styled
-} from '@mui/material/styles';
-
-const HomePage1 = styled("div")({
-  backgroundColor: `rgba(230, 247, 255, 1)`,
-  display: `flex`,
-  position: `relative`,
-  isolation: `isolate`,
-  flexDirection: `row`,
-  width: `100vw`,
-  height: `100vh`,
-  justifyContent: `center`,
-  padding: `0px`,
-  boxSizing: `border-box`,
-  overflow: `hidden`,
-});
-
-const TopBar = styled("img")({
-  height: `54px`,
-  width: `100vw`,
-  position: `absolute`,
-  left: `0px`,
-  top: `0px`,
-});
-
-//The thing on the right
-const BrowseRequest = styled("div")({
-  display: `flex`,
-  position: `absolute`,
-  isolation: `isolate`,
-  flexDirection: `row`,
-  justifyContent: `center`,
-  padding: `0px`,
-  boxSizing: `border-box`,
-  width: `286.02px`,
-  height: `308px`,
-  top: `200px`,
-  right: '200px'
-});
-
-//The thing on the left
-const AddForms = styled("div")({
-  display: `flex`,
-  position: `absolute`,
-  isolation: `isolate`,
-  flexDirection: `row`,
-  justifyContent: `center`,
-  padding: `0px`,
-  boxSizing: `border-box`,
-  width: `286.02px`,
-  height: `308px`,
-  top: `200px`,
-  left: '200px'
-});
-
-//This is the rectangle thing on the addslip and view slip
-const Rectangle11 = styled("div")({
-  display: 'flex',
-  backgroundColor: `rgba(181, 218, 255, 1)`,
-  borderRadius: `20px`,
-  width: `286.02px`,
-  height: `238.4px`,
-  position: `absolute`,
-  justifyContent: `center`,
-  alignItems: `center`,
-  alignContent: 'center',
-  top: `10px`,
-});
-
-//There are two icon divs, it's so that the ellipse and the image are under one div
-const Icon = styled("div")({
-  display: 'flex',
-  backgroundColor: `rgba(181, 218, 255, 1)`,
-  borderRadius: `20px`,
-  width: `286.02px`,
-  height: `238.4px`,
-  position: `absolute`,
-  justifyContent: `center`,
-  alignItems: `center`,
-  alignContent: 'center',
-  top: `10px`,
-});
-
-const Ellipse1 = styled("img")({
-  display: 'flex',
-  height: `120px`,
-  width: `120px`,
-  position: `absolute`,
-  top: `0px`,
-  justifyContent: `center`,
-  alignItems: `center`,
-  alignContent: 'center',
-});
-
-//The icon on the viewslip
-const Image1 = styled("img")({
-  height: `92.27px`,
-  width: `98.64px`,
-  objectFit: `cover`,
-  position: `absolute`,
-  top: `15px`,
-});
-
-//The icon for the addslip
-const LifesaversPaperWok = styled("img")({
-  height: `110px`,
-  width: `110px`,
-  objectFit: `cover`,
-  position: `absolute`,
-  left: `90px`,
-  top: `5px`,
-});
-
-const BrowseButton = styled("div")({
-  display: `flex`,
-  position: `absolute`,
-  isolation: `isolate`,
-  flexDirection: `row`,
-  justifyContent: `center`,
-  padding: `0px`,
-  boxSizing: `border-box`,
-  width: `162.03px`,
-  height: `65.48px`,
-  left: `60px`,
-  top: `150px`,
-});
-
-//These are buttons for the viewslip and addslip
-const Button = styled("div")({
-  display: 'flex',
-  backgroundColor: `rgba(146, 193, 240, 1)`,
-  border: `1px solid rgba(0, 0, 0, 1)`,
-  boxSizing: `border-box`,
-  borderRadius: `35px`,
-  width: `162.03px`,
-  height: `65.48px`,
-  position: `absolute`,
-  top: `0px`,
-  justifyContent: 'center',
-});
-
-//As its name implies
-const ButtonText = styled("div")({
-  textAlign: `center`,
-  whiteSpace: `pre-wrap`,
-  fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
-  fontStyle: `normal`,
-  fontFamily: `JejuMyeongjo`,
-  fontWeight: `400`,
-  fontSize: `20px`,
-  letterSpacing: `0px`,
-  textDecoration: `none`,
-  textTransform: `none`,
-  width: `145px`,
-  position: `absolute`,
-  left: `7px`,
-  top: `16px`,
-});
-
-const NavBar = styled("div")({
-  display: `flex`,
-  position: `fixed`,
-  flexDirection: `row`,
-  justifyContent: `flex-start`,
-  alignItems: `flex-start`,
-  padding: `0px`,
-  boxSizing: `border-box`,
-  width: `58px`,
-  height: `54px`,
-  right: '0px',
-  top: `0px`,
-  borderWidth: '1px',
-  borderColor: 'black'
-});
-
-//This is a div which contains both the addslip and viewslip, to prevent them from overlapping when window size changes
-const BoxThing = styled("div")({
-  display: `flex`,
-  position: `fixed`,
-  flexDirection: `row`,
-  justifyContent: `center`,
-  alignItems: `center`,
-  alignContent: 'center',
-  padding: `0px`,
-  boxSizing: `border-box`,
-  width: '1200px',
-  height: '10px',
-  top: '10%',
-});
-
-//Rectangles 7, 8, and 6 are just the three bar things on the nav bar
-const Rectangle7 = styled("img")({
-  height: `5.28px`,
-  width: `39.16px`,
-  position: `absolute`,
-  left: `9px`,
-  top: `38px`,
-});
-
-const Rectangle8 = styled("img")({
-  height: `5.28px`,
-  width: `39.16px`,
-  position: `absolute`,
-  left: `8px`,
-  top: `24px`,
-});
-
-const Rectangle6 = styled("img")({
-  height: `5.28px`,
-  width: `39.16px`,
-  position: `absolute`,
-  left: `9px`,
-  top: `9px`,
-});
-
-//The logo on top-left corner
-const Photo621766538281941 = styled("img")({
-  height: `49px`,
-  width: `48px`,
-  objectFit: `cover`,
-  position: `absolute`,
-  left: `22px`,
-  top: `3px`,
-});
-
-//The text right beside the logo on top-left corner
-const CareAndCureHub = styled("div")({
-  textAlign: `center`,
-  whiteSpace: `pre-wrap`,
-  fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
-  fontStyle: `normal`,
-  fontFamily: `JejuMyeongjo`,
-  fontWeight: `400`,
-  fontSize: `36px`,
-  letterSpacing: `0px`,
-  textDecoration: `none`,
-  textTransform: `none`,
-  width: `388px`,
-  height: `62px`,
-  position: `absolute`,
-  left: `18px`,
-  top: `-4px`,
-});
-
-
-
-function HomePage() {
+export default function HomePage() {
   return (
-    <HomePage1>
-      <TopBar src={Rectangle5Image} loading='lazy' alt={"Rectangle 5"}/>
-      <BoxThing>
-        <AddForms>
-          <Rectangle11>
-            <Icon>
-              <Ellipse1 src={Ellipse1Image} loading='lazy' alt={"Ellipse"}/>
-              <LifesaversPaperWok src={LifesaversPaperWokImage} loading='lazy' alt={"1LifesaversPaperWokImage"}/>
-            </Icon>
-            <BrowseButton>
-              <Button>
-                <ButtonText>
-                  {`ADD SLIPS`}
-                </ButtonText>
-              </Button>
-            </BrowseButton>
-          </Rectangle11>
-        </AddForms>
-        <BrowseRequest>
-          <Rectangle11>
-            <Icon>
-              <Ellipse1 src={Ellipse1Image} loading='lazy' alt={"Ellipse"}/>
-              <Image1 src={Image1Image} loading='lazy' alt={"image 1"}/>
-            </Icon>
-            <BrowseButton>
-              <Button>
-                <ButtonText>
-                  {`VIEW SLIPS`}
-                </ButtonText>
-              </Button>
-            </BrowseButton>
-          </Rectangle11>
-        </BrowseRequest>
-      </BoxThing>
-      <NavBar>
-        <Rectangle7 src={Rectangle7Image} loading='lazy' alt={"Rectangle 7"}/>
-        <Rectangle8 src={Rectangle7Image} loading='lazy' alt={"Rectangle 7"}/>
-        <Rectangle6 src={Rectangle7Image} loading='lazy' alt={"Rectangle 7"}/>
-      </NavBar>
-      <Photo621766538281941 src={Photo621766538281941Image} loading='lazy' alt={"photo_6217665382819412830_m-removebg-preview 1"}/>
-      <CareAndCureHub>
-        {`Care and Cure Hub`}
-      </CareAndCureHub>
-    </HomePage1>
-    
+    <>
+      <ResponsiveAppBar buttonDisplay="inline"/>
+      <div style={{ height: '100%', width: '100%', margin: "auto", padding:"4px"}}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+        />
+      </div>
+    </>
     );
-  }
-
-export default HomePage;  
+  } 
