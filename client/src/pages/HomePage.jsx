@@ -12,6 +12,8 @@ import Rectangle7Image from '../testAsset/images/homepage_Rectangle_7.png';
 
 import Photo621766538281941Image from '../testAsset/images/homepage_photo_6217665382819412830_m_removebg_preview_1.png';
 
+import MyButton from '../MyButton';
+
 import {
   styled
 } from '@mui/material/styles';
@@ -258,6 +260,8 @@ const CareAndCureHub = styled("div")({
   left: `18px`,
   top: `-4px`,
 });
+
+
 
 function HomePage() {
   return (

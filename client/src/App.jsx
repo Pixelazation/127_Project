@@ -4,8 +4,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 
 import AddFormInfo from './pages/AddFormInfo';
-import BrowseWithDropdown from './pages/BrowseWithDropdown';
-import FrontWithNavBar from './pages/FrontWithNavBar';
+
+import USure from './pages/USure';
 import HomePage from './pages/HomePage';
 import ViewSlips from './pages/ViewSlips';
 
@@ -13,8 +13,7 @@ import ViewSlips from './pages/ViewSlips';
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
   { path: '/AddFormInfo', element: <AddFormInfo /> },
-  { path: '/BrowseWithDropdown', element: <BrowseWithDropdown /> },
-  { path: '/FrontWithNavBar', element: <FrontWithNavBar /> },
+  { path: '/USure', element: <USure /> },
   { path: '/ViewSlips', element: <ViewSlips /> },
 ]);
 
