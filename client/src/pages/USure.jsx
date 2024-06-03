@@ -1,12 +1,10 @@
 import React from 'react';
 
-import Rectangle14Image from '../testAsset/images/slippatientinfo_Rectangle_14.png';
+import { useNavigate } from "react-router-dom";
+
+import Button from '@mui/material/Button';
 
 import Photo621766538281941Image from '../testAsset/images/homepage_photo_6217665382819412830_m_removebg_preview_1.png';
-
-import Rectangle19Image from '../testAsset/images/USURE_Rectangle_19.png';
-
-import Rectangle191Image from '../testAsset/images/USURE_Rectangle_19.png';
 
 import {
   styled
@@ -26,11 +24,12 @@ const USure1 = styled("div")({
   overflow: `hidden`,
 });
 
-const Rectangle14 = styled("img")({
-  height: `29px`,
-  width: `830px`,
+const TopBar = styled("img")({
+  height: `80px`,
+  width: `100vw`,
   position: `absolute`,
-  top: `26px`,
+  backgroundColor: 'rgba(146, 193, 240, 1)',
+  zIndex: '-5',
 });
 
 const Photo621766538281941 = styled("img")({
@@ -61,11 +60,10 @@ const Cch = styled("div")({
   top: `12px`,
 });
 
-const Rectangle22 = styled("div")({
+const GreyBox = styled("div")({
   display: 'flex',
   justifyContent: 'center',
   backgroundColor: `rgba(217, 217, 217, 1)`,
-  boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25)`,
   border: `2px solid rgba(42, 92, 118, 1)`,
   boxSizing: `border-box`,
   borderRadius: `25px`,
@@ -104,19 +102,12 @@ const Group7 = styled("div")({
   top: '120px'
 });
 
-const Rectangle19 = styled("img")({
-  height: `42px`,
-  width: `182px`,
-  position: `absolute`,
-  left: `0px`,
-  top: `0px`,
-});
-
 const Submit = styled("div")({
+  display: 'flex',
+  justifyContent: 'center',
   textAlign: `center`,
   whiteSpace: `pre-wrap`,
   fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
   fontStyle: `normal`,
   fontFamily: `Droid Sans`,
   fontWeight: `400`,
@@ -124,26 +115,20 @@ const Submit = styled("div")({
   letterSpacing: `0px`,
   textDecoration: `none`,
   textTransform: `none`,
-  width: `80px`,
-  height: `23px`,
+  width: `100px`,
+  height: `50px`,
   position: `absolute`,
-  left: `51px`,
-  top: `2.5px`,
+  top: '100px',
+  left: '110px',
 });
 
-const Rectangle191 = styled("img")({
-  height: `42px`,
-  width: `182px`,
-  position: `absolute`,
-  left: `0px`,
-  top: `0px`,
-});
 
 const Cancel = styled("div")({
+  display: 'flex',
+  justifyContent: 'center',
   textAlign: `center`,
   whiteSpace: `pre-wrap`,
   fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
   fontStyle: `normal`,
   fontFamily: `Droid Sans`,
   fontWeight: `400`,
@@ -151,11 +136,12 @@ const Cancel = styled("div")({
   letterSpacing: `0px`,
   textDecoration: `none`,
   textTransform: `none`,
-  width: `80px`,
-  height: `23px`,
+  width: `100px`,
+  height: `50px`,
   position: `absolute`,
-  left: `51px`,
-  top: `2.5px`,
+  top: '100px',
+  right: '110px',
+
 });
 
 const AreYouSureYouWantToS = styled("div")({
@@ -191,31 +177,29 @@ const BoxThing = styled("div")({
 
 
 function USure() {
+  
+  let navigate = useNavigate();
+
   return (
     <USure1>
       <Photo621766538281941 src={Photo621766538281941Image} loading='lazy' alt={"photo_6217665382819412830_m-removebg-preview 3"}/>
       <Cch>
         {`CCH`}
       </Cch>
+      <TopBar/>
+
       <BoxThing>
-        <Rectangle14 src={Rectangle14Image} loading='lazy' alt={"Rectangle 14"}/>
-        <Rectangle22>
-          <Group6>
-            <Rectangle19 src={Rectangle19Image} loading='lazy' alt={"Rectangle 19"}/>
-            <Submit>
-              {`Submit`}
-            </Submit>
-          </Group6>
-          <Group7>
-            <Rectangle191 src={Rectangle191Image} loading='lazy' alt={"Rectangle 19"}/>
-            <Cancel>
-              {`Cancel`}
-            </Cancel>
-          </Group7>
+        <GreyBox>
+          <Submit>
+            <Button variant="contained" onClick={() => {navigate("/AddFormInfo");}}>Submit</Button>
+          </Submit>
+          <Cancel>
+            <Button variant="contained" onClick={() => {navigate("/AddFormInfo");}}>Cancel</Button>
+          </Cancel>
           <AreYouSureYouWantToS>
             {`Are you sure you want to submit the slip?`}
           </AreYouSureYouWantToS>
-        </Rectangle22>
+        </GreyBox>
 
       </BoxThing>
     </USure1>);

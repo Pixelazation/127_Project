@@ -1,18 +1,14 @@
 import React from 'react';
 
-import Rectangle5Image from '../testAsset/images/homepage_Rectangle_5.png';
+import { useNavigate } from "react-router-dom";
 
 import LifesaversPaperWokImage from '../testAsset/images/homepage_Lifesavers_Paper_Wok.png';
 
-import Ellipse1Image from '../testAsset/images/homepage_Ellipse.png';
+import FolderIcon from '../testAsset/images/homepage_image_1.png';
 
-import Image1Image from '../testAsset/images/homepage_image_1.png';
+import CCH from '../testAsset/images/homepage_photo_6217665382819412830_m_removebg_preview_1.png';
 
-import Rectangle7Image from '../testAsset/images/homepage_Rectangle_7.png';
-
-import Photo621766538281941Image from '../testAsset/images/homepage_photo_6217665382819412830_m_removebg_preview_1.png';
-
-import MyButton from '../MyButton';
+import Button from '@mui/material/Button';
 
 import {
   styled
@@ -36,8 +32,7 @@ const TopBar = styled("img")({
   height: `54px`,
   width: `100vw`,
   position: `absolute`,
-  left: `0px`,
-  top: `0px`,
+  backgroundColor: 'rgba(146, 193, 240, 1)',
 });
 
 //The thing on the right
@@ -70,47 +65,31 @@ const AddForms = styled("div")({
   left: '200px'
 });
 
-//This is the rectangle thing on the addslip and view slip
-const Rectangle11 = styled("div")({
-  display: 'flex',
-  backgroundColor: `rgba(181, 218, 255, 1)`,
-  borderRadius: `20px`,
-  width: `286.02px`,
-  height: `238.4px`,
-  position: `absolute`,
-  justifyContent: `center`,
-  alignItems: `center`,
-  alignContent: 'center',
-  top: `10px`,
-});
-
 //There are two icon divs, it's so that the ellipse and the image are under one div
 const Icon = styled("div")({
   display: 'flex',
   backgroundColor: `rgba(181, 218, 255, 1)`,
   borderRadius: `20px`,
-  width: `286.02px`,
-  height: `238.4px`,
+  width: `290px`,
+  height: `245px`,
   position: `absolute`,
   justifyContent: `center`,
-  alignItems: `center`,
   alignContent: 'center',
   top: `10px`,
 });
 
-const Ellipse1 = styled("img")({
-  display: 'flex',
-  height: `120px`,
-  width: `120px`,
-  position: `absolute`,
-  top: `0px`,
-  justifyContent: `center`,
-  alignItems: `center`,
-  alignContent: 'center',
+const Ellipse1 = styled("div")({
+  width: '120px',
+  height: '120px',
+  backgroundColor: 'rgba(146, 193, 240, 1)',
+  borderRadius: '50%', 
+  top: '20px',
+  borderWidth: '1px',
+  borderColor: 'black'
 });
 
 //The icon on the viewslip
-const Image1 = styled("img")({
+const Folder = styled("img")({
   height: `92.27px`,
   width: `98.64px`,
   objectFit: `cover`,
@@ -140,39 +119,6 @@ const BrowseButton = styled("div")({
   height: `65.48px`,
   left: `60px`,
   top: `150px`,
-});
-
-//These are buttons for the viewslip and addslip
-const Button = styled("div")({
-  display: 'flex',
-  backgroundColor: `rgba(146, 193, 240, 1)`,
-  border: `1px solid rgba(0, 0, 0, 1)`,
-  boxSizing: `border-box`,
-  borderRadius: `35px`,
-  width: `162.03px`,
-  height: `65.48px`,
-  position: `absolute`,
-  top: `0px`,
-  justifyContent: 'center',
-});
-
-//As its name implies
-const ButtonText = styled("div")({
-  textAlign: `center`,
-  whiteSpace: `pre-wrap`,
-  fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
-  fontStyle: `normal`,
-  fontFamily: `JejuMyeongjo`,
-  fontWeight: `400`,
-  fontSize: `20px`,
-  letterSpacing: `0px`,
-  textDecoration: `none`,
-  textTransform: `none`,
-  width: `145px`,
-  position: `absolute`,
-  left: `7px`,
-  top: `16px`,
 });
 
 const NavBar = styled("div")({
@@ -208,31 +154,34 @@ const BoxThing = styled("div")({
 
 //Rectangles 7, 8, and 6 are just the three bar things on the nav bar
 const Rectangle7 = styled("img")({
-  height: `5.28px`,
-  width: `39.16px`,
+  height: `6px`,
+  width: `40px`,
   position: `absolute`,
   left: `9px`,
-  top: `38px`,
+  top: `39px`,
+  background: 'rgba(230, 247, 255, 1)',
 });
 
 const Rectangle8 = styled("img")({
-  height: `5.28px`,
-  width: `39.16px`,
+  height: `6px`,
+  width: `40px`,
   position: `absolute`,
-  left: `8px`,
+  left: `9px`,
   top: `24px`,
+  background: 'rgba(230, 247, 255, 1)',
 });
 
 const Rectangle6 = styled("img")({
-  height: `5.28px`,
-  width: `39.16px`,
+  height: `6px`,
+  width: `40px`,
   position: `absolute`,
   left: `9px`,
   top: `9px`,
+  background: 'rgba(230, 247, 255, 1)',
 });
 
 //The logo on top-left corner
-const Photo621766538281941 = styled("img")({
+const Logo = styled("img")({
   height: `49px`,
   width: `48px`,
   objectFit: `cover`,
@@ -264,47 +213,38 @@ const CareAndCureHub = styled("div")({
 
 
 function HomePage() {
+  //let history = useHistory();
+let navigate = useNavigate();
+
   return (
     <HomePage1>
-      <TopBar src={Rectangle5Image} loading='lazy' alt={"Rectangle 5"}/>
+      <TopBar/>
       <BoxThing>
         <AddForms>
-          <Rectangle11>
             <Icon>
-              <Ellipse1 src={Ellipse1Image} loading='lazy' alt={"Ellipse"}/>
+              <Ellipse1/>
               <LifesaversPaperWok src={LifesaversPaperWokImage} loading='lazy' alt={"1LifesaversPaperWokImage"}/>
             </Icon>
             <BrowseButton>
-              <Button>
-                <ButtonText>
-                  {`ADD SLIPS`}
-                </ButtonText>
-              </Button>
+              <Button variant="contained" onClick={() => {navigate("/AddFormInfo");}}>Add Slips</Button>
             </BrowseButton>
-          </Rectangle11>
         </AddForms>
         <BrowseRequest>
-          <Rectangle11>
             <Icon>
-              <Ellipse1 src={Ellipse1Image} loading='lazy' alt={"Ellipse"}/>
-              <Image1 src={Image1Image} loading='lazy' alt={"image 1"}/>
+              <Ellipse1/>
+              <Folder src={FolderIcon} loading='lazy' alt={"image 1"}/>
             </Icon>
             <BrowseButton>
-              <Button>
-                <ButtonText>
-                  {`VIEW SLIPS`}
-                </ButtonText>
-              </Button>
+              <Button variant="contained" onClick={() => {navigate("/ViewSlips");}}>View Slips</Button>
             </BrowseButton>
-          </Rectangle11>
         </BrowseRequest>
       </BoxThing>
       <NavBar>
-        <Rectangle7 src={Rectangle7Image} loading='lazy' alt={"Rectangle 7"}/>
-        <Rectangle8 src={Rectangle7Image} loading='lazy' alt={"Rectangle 7"}/>
-        <Rectangle6 src={Rectangle7Image} loading='lazy' alt={"Rectangle 7"}/>
+        <Rectangle7/>
+        <Rectangle8/>
+        <Rectangle6/>
       </NavBar>
-      <Photo621766538281941 src={Photo621766538281941Image} loading='lazy' alt={"photo_6217665382819412830_m-removebg-preview 1"}/>
+      <Logo src={CCH} loading='lazy' alt={"photo_6217665382819412830_m-removebg-preview 1"}/>
       <CareAndCureHub>
         {`Care and Cure Hub`}
       </CareAndCureHub>
