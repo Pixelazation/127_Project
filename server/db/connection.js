@@ -1,12 +1,14 @@
 import { Sequelize } from 'sequelize';
 
-const db = new Sequelize('test_patient',
-                                process.env.MYSQL_USER,
-                                process.env.MYSQL_PASS, {
-  host: process.env.MYSQL_HOST,
-  dialect: 'mysql',
-  logging: console.log
-});
+// const db = new Sequelize('test_patient',
+//                                 process.env.MYSQL_USER,
+//                                 process.env.MYSQL_PASS, {
+//   host: process.env.MYSQL_HOST,
+//   dialect: 'mysql',
+//   logging: console.log
+// });
+
+const db = new Sequelize(process.env.MYSQL_URI);
 
 try {
   await db.authenticate();
