@@ -8,7 +8,9 @@ import { Sequelize } from 'sequelize';
 //   logging: console.log
 // });
 
-const db = new Sequelize(process.env.MYSQL_URI);
+const uri = process.env.MYSQL_URI;
+
+const db = new Sequelize(uri);
 
 try {
   await db.authenticate();
