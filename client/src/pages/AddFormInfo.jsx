@@ -1,4 +1,6 @@
 import React from 'react';
+import ResponsiveAppBar from '../components/NavBar';
+import { DataGrid } from '@mui/x-data-grid';
 
 import { useNavigate } from "react-router-dom";
 
@@ -297,15 +299,17 @@ function SlipPatientInfo1() {
 
   return (
     <SlipPatientInfo11>
-      <TopBar/>
-      <Back>
+      {/* <TopBar/> */}
+      <ResponsiveAppBar buttonDisplay="inline"/>
+      <div></div>
+      {/* <Back>
         <Button variant="contained"onClick={() => {navigate("/");}}>Back</Button>
       </Back>
 
       <Logo src={CCH} loading='lazy' alt={"Logo"}/>
       <CCHText>
         {`CCH`}
-      </CCHText>
+      </CCHText> */}
         
       <BoxThing>
         <SlipInformation>
