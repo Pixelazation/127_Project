@@ -7,52 +7,7 @@ import PreviewIcon from '@mui/icons-material/Preview';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const columns = [
-  {field: 'preview', headerName:'Preview', width:100, sortable:false, 
-    renderCell: (params) => {
-      const onClick = (e) => {
-        e.stopPropagation(); // don't select this row after clicking
-        const api = params.api;
-        const thisRow = {};
-        api
-        .getAllColumns()
-        .filter((c) => c.field !== "__check__" && !!c)
-        .forEach(
-          (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
-        );
-        return alert(JSON.stringify(thisRow, null, 4));
-      };
-    return <Button onClick={onClick}><PreviewIcon/></Button>;
-    }
-  },
-  {field: 'id', headerName: 'CS No.', width: 75 },
-  {field: 'date', headerName: 'Date', width: 120,},
-  {field: 'firstName', headerName: 'First Name', width: 150 },
-  {field: 'lastName', headerName: 'Last Name', width: 150 },
-  {field: 'company', headerName: 'Company', width: 150 },
-  {field: 'doctor', headerName: 'Doctor', width: 150 },
-  {field: 'edit', headerName:'Edit', width:100, sortable:false, 
-    renderCell: (params) => {
-      const onClick = (e) => {
-        e.stopPropagation(); // don't select this row after clicking
-        const id = params.row.id
-        console.log(id);
-      };
 
-      return <Button onClick={onClick}><EditIcon/></Button>;
-    }
-  },
-  {field: 'delete', headerName:'Delete', width:100, sortable:false, 
-    renderCell: (params) => {
-      const onClick = (e) => {
-        e.stopPropagation(); // don't select this row after clicking
-        const id = params.row.id
-        console.log(id);
-      };
-    return <Button onClick={onClick}><DeleteIcon/></Button>;
-    }
-  },
-];
 
 // const rows = [
 //   { id: 1, date: '2023-10-02', firstName:'Levi', lastName:'Cruz',  company:'ELINK', doctor:'M'},
@@ -75,33 +30,96 @@ const columns = [
 
 export default function HomePage() {
   const [rows, setRows] = useState([]);
+  const [toggle, toggler] = useState(false);
+
+  // Functions
+  async function getRows() {
+    const response = await fetch("http://localhost:3000/slip");
+    if (!response.ok) {
+      const message = `An error occurred: ${response.statusText}`;
+      console.error(message);
+      return;
+    }
+    var records = await response.json();
+  
+    records = records.map(record => {
+      return {
+        id: record.SLIP_ID, 
+        date: record.ORDER_DATE, 
+        firstName: record.FNAME, 
+        lastName: record.LNAME,  
+        company: record.COMPANY, 
+        doctor: record.DOCTOR
+      }
+    });
+
+    setRows(records);
+  }
+
+  async function deleteRow(id) {
+    const response = await fetch(`http://localhost:3000/slip/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response) {
+      const message = `An error occurred: ${response.statusText}`;
+      console.error(message);
+      return;
+    } else {
+      getRows();
+    }
+  }
+
+  const columns = [
+    {field: 'preview', headerName:'Preview', width:100, sortable:false, 
+      renderCell: (params) => {
+        const onClick = (e) => {
+          e.stopPropagation(); // don't select this row after clicking
+          const api = params.api;
+          const thisRow = {};
+          api
+          .getAllColumns()
+          .filter((c) => c.field !== "__check__" && !!c)
+          .forEach(
+            (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+          );
+          return alert(JSON.stringify(thisRow, null, 4));
+        };
+      return <Button onClick={onClick}><PreviewIcon/></Button>;
+      }
+    },
+    {field: 'id', headerName: 'CS No.', width: 75 },
+    {field: 'date', headerName: 'Date', width: 120,},
+    {field: 'firstName', headerName: 'First Name', width: 150 },
+    {field: 'lastName', headerName: 'Last Name', width: 150 },
+    {field: 'company', headerName: 'Company', width: 150 },
+    {field: 'doctor', headerName: 'Doctor', width: 150 },
+    {field: 'edit', headerName:'Edit', width:100, sortable:false, 
+      renderCell: (params) => {
+        const onClick = (e) => {
+          e.stopPropagation(); // don't select this row after clicking
+          const id = params.row.id
+          console.log(id);
+        };
+  
+        return <Button onClick={onClick}><EditIcon/></Button>;
+      }
+    },
+    {field: 'delete', headerName:'Delete', width:100, sortable:false, 
+      renderCell: (params) => {
+        async function onClick(e) {
+          e.stopPropagation(); // don't select this row after clicking
+          await deleteRow(params.row.id);
+        };
+      return <Button onClick={onClick}><DeleteIcon/></Button>;
+      }
+    },
+  ];
 
   useEffect(() => {
-    async function getRows() {
-      const response = await fetch("http://localhost:3000/view");
-      if (!response.ok) {
-        const message = `An error occurred: ${response.statusText}`;
-        console.error(message);
-        return;
-      }
-      var records = await response.json();
-    
-      records = records.map(record => {
-        return {
-          id: record.SLIP_ID, 
-          date: record.ORDER_DATE, 
-          firstName: record.FNAME, 
-          lastName: record.LNAME,  
-          company: record.COMPANY, 
-          doctor: record.DOCTOR
-        }
-      });
-
-      setRows(records);
-    }
-
     getRows();
-  }, [rows.length])
+    console.log("effect!");
+  }, [rows.length, toggle])
 
   return (
     <>

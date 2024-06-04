@@ -7,21 +7,47 @@ const PORT = 3000;
 const app = express();
 
 app.use(cors());
-app.use(express.json())
 
 app.listen(PORT);
 
-app.get("/", (res, req) => {
-    req.send("Hello!");
+app.get("/", (req, res) => {
+    res.send("Hello!");
 })
 
-app.get("/view", async(res, req) => {
+app.get("/slip", async(req, res) => {
     const results = await db.query(`
         SELECT * FROM slips;
     `, {
         type: QueryTypes.SELECT
-    })
+    });
 
-    req.send(results);
+    res.send(results);
     console.log(results);
+})
+
+app.get("/slip/:id", async(req, res) => {
+    const id = req.params.id
+
+    const results = await db.query(`
+        SELECT * FROM orders WHERE SLIP_ID = ${id};
+    `, {
+        type: QueryTypes.SELECT
+    });
+
+    res.send(results);
+    console.log(results);
+})
+
+app.delete("/slip/:id", async(req, res) => {
+    const id = req.params.id
+
+    await db.query(`
+        DELETE FROM slips WHERE SLIP_ID = ${id};
+    `, {
+        type: QueryTypes.DELETE
+    });
+
+    console.log("deleted!");
+    res.send(id);
+    console.log("sent!");
 })
