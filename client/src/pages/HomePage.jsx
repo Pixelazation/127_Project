@@ -85,7 +85,7 @@ export default function HomePage() {
           );
           return alert(JSON.stringify(thisRow, null, 4));
         };
-      return <Button onClick={onClick}><PreviewIcon/></Button>;
+      return <Button onClick={onClick} href="/ViewRow"><PreviewIcon/></Button>;
       }
     },
     {field: 'id', headerName: 'CS No.', width: 75 },
