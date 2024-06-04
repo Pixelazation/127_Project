@@ -10,7 +10,7 @@ import ViewRow from './pages/ViewRow';
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
-  { path: '/ViewRow', element: <ViewRow /> },
+  { path: '/ViewRow/:id', element: <ViewRow /> },
   { path: '/AddFormInfo', element: <AddFormInfo /> }
 ]);
 
