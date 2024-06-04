@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 
-const db = new Sequelize('connection_tester',
+const db = new Sequelize('test_patient',
                                 process.env.MYSQL_USER,
                                 process.env.MYSQL_PASS, {
   host: process.env.MYSQL_HOST,
