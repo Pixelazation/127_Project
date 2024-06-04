@@ -52,7 +52,7 @@ export default function ResponsiveAppBar(props) {
                 variant="h6"
                 noWrap
                 component="a"
-                href=""
+                href={`http://${window.location.host}`}
                 sx={{
                     mr: 2,
                     display: { xs: 'none', md: 'flex' },
@@ -65,7 +65,7 @@ export default function ResponsiveAppBar(props) {
                 Care and Cure Hub
             </Typography>
 
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
+            {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
                 <IconButton
                     size="large"
                     edge="start"
@@ -74,12 +74,12 @@ export default function ResponsiveAppBar(props) {
                     sx={{ mr: 2, color: '#000000'}}
                     onClick={handleOpenNavMenu}>
                 </IconButton>
-            </Box>
+            </Box> */}
             <Typography
                 variant="h5"
                 noWrap
                 component="a"
-                href=""
+                href={window.location.host}
                 sx={{
                 mr: 2,
                 display: { xs: 'flex', md: 'none' },
