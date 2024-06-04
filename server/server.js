@@ -25,19 +25,6 @@ app.get("/slip", async(req, res) => {
     console.log(results);
 })
 
-app.get("/slip/:id", async(req, res) => {
-    const id = req.params.id
-
-    const results = await db.query(`
-        SELECT * FROM orders WHERE SLIP_ID = ${id};
-    `, {
-        type: QueryTypes.SELECT
-    });
-
-    res.send(results);
-    console.log(results);
-})
-
 app.delete("/slip/:id", async(req, res) => {
     const id = req.params.id
 
@@ -50,4 +37,32 @@ app.delete("/slip/:id", async(req, res) => {
     console.log("deleted!");
     res.send(id);
     console.log("sent!");
+})
+
+app.get("/slip/:id/orders", async(req, res) => {
+    const id = req.params.id
+
+    const results = await db.query(`
+        SELECT services.SERV_NAME, PRICE
+        FROM services NATURAL JOIN orders
+        WHERE SLIP_ID = ${id};
+    `, {
+        type: QueryTypes.SELECT
+    });
+
+    res.send(results);
+    console.log(results);
+})
+
+app.get("/slip/:id/info", async(req, res) => {
+    const id = req.params.id
+
+    const results = await db.query(`
+        SELECT * FROM slips WHERE SLIP_ID = ${id};
+    `, {
+        type: QueryTypes.SELECT
+    });
+
+    res.send(results);
+    console.log(results);
 })
