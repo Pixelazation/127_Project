@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import ResponsiveAppBar from '../components/NavBar';
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
@@ -29,6 +31,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 
 export default function HomePage() {
+  const navigate = useNavigate();
+
   const [rows, setRows] = useState([]);
   const [toggle, toggler] = useState(false);
 
@@ -74,18 +78,10 @@ export default function HomePage() {
     {field: 'preview', headerName:'Preview', width:100, sortable:false, 
       renderCell: (params) => {
         const onClick = (e) => {
-          e.stopPropagation(); // don't select this row after clicking
-          // const api = params.api;
-          // const thisRow = {};
-          // api
-          // .getAllColumns()
-          // .filter((c) => c.field !== "__check__" && !!c)
-          // .forEach(
-          //   (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
-          // );
-          // return alert(JSON.stringify(thisRow, null, 4));
+          e.stopPropagation();
+          navigate(`/ViewRow/${params.row.id}`);
         };
-      return <Button onClick={onClick} href={`/ViewRow/${params.row.id}`}><PreviewIcon/></Button>;
+      return <Button onClick={onClick}><PreviewIcon/></Button>;
       }
     },
     {field: 'id', headerName: 'CS No.', width: 75 },
@@ -98,8 +94,7 @@ export default function HomePage() {
       renderCell: (params) => {
         const onClick = (e) => {
           e.stopPropagation(); // don't select this row after clicking
-          const id = params.row.id
-          console.log(id);
+          navigate(`/EditFormInfo/${params.row.id}`);
         };
   
         return <Button onClick={onClick}><EditIcon/></Button>;
