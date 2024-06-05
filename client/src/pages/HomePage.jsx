@@ -3,31 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import ResponsiveAppBar from '../components/NavBar';
 import { DataGrid } from '@mui/x-data-grid';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import PreviewIcon from '@mui/icons-material/Preview';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
-
-
-// const rows = [
-//   { id: 1, date: '2023-10-02', firstName:'Levi', lastName:'Cruz',  company:'ELINK', doctor:'M'},
-//   { id: 2, date: '2023-10-3', firstName: 'Enrico', lastName: 'Villanueva', company: null, doctor: 'MQ'},		
-//   { id: 3, date: '2023-10-9', firstName: 'Hiroshi', lastName: 'Tan', company: 'VA PLATINUM', doctor: 'D'},
-//   { id: 4, date: '2023-10-11', firstName: 'Darryl', lastName: 'Tan', company: 'VA PLATINUM', doctor: 'D'},	
-//   { id: 5, date: '2023-10-11', firstName: 'Mateo', lastName: 'Rodriguez', company: 'JFC', doctor: 'G'},		
-//   { id: 6, date: '2023-10-11', firstName: 'Lara', lastName: 'Reyes', company: 'RUSTANS', doctor: 'A'},
-//   { id: 7, date: '2023-10-12', firstName: 'Janelle', lastName: 'Uy', company: 'VA PLATINUM', doctor: 'MN'},		
-//   { id: 8, date: '2023-10-14', firstName: 'Enrico', lastName: 'Villanueva', company: 'ELINK', doctor: 'MQ'},		
-//   { id: 9, date: '2023-10-17', firstName: 'Rosario', lastName: 'Lagman', company: 'ARCENAS', doctor: 'SR'},		
-//   { id: 10, date: '2023-10-22', firstName: 'Bianca', lastName: 'Panganiban', company: 'GLOBAL', doctor: 'L'},		
-//   { id: 11, date: '2023-10-22', firstName: 'Avery', lastName: 'Hernandez', company: 'BELO', doctor: 'SN'},		
-//   { id: 12, date: '2023-10-22', firstName: 'Rosario', lastName: 'Lagman', doctor: 'SR', company: 'ARCENAS'},		
-//   { id: 13, date: '2023-10-26', firstName: 'Kim', lastName: 'Navarro', company: null, doctor: 'SR'},		
-//   { id: 14, date: '2023-10-28', firstName: 'Louie', lastName: 'Morales', company: null, doctor: 'MQ'},		
-//   { id: 15, date: '2023-10-28', firstName: 'Morgan', lastName: 'Fernandez', company: null, doctor: 'M'},
-// ];
 
 
 export default function HomePage() {
@@ -125,7 +104,7 @@ export default function HomePage() {
           columns={columns}
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
+              paginationModel: { page: 0, pageSize: 10 },
             },
           }}
           pageSizeOptions={[5, 10]}

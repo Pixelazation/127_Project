@@ -8,7 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import { styled } from '@mui/material/styles';
 
-import { List, Select } from "@mui/material";
+import { Select } from "@mui/material";
 
 import Button from '@mui/material/Button';
 
@@ -28,18 +28,6 @@ const TextBox = styled("div")({
   position: 'relative',
   borderRadius: '5px',
 });
-
-// const AppendText = styled("div")({
-//   marginLeft: 'auto',
-//   marginRight: 'auto',
-//   display: 'flex',
-//   justifyContent: 'center',
-//   flexDirection: 'row',
-//   width: '600px',
-//   height: '55px',
-//   position: 'relative',
-//   borderRadius: '5px', 
-// });
 
 const MainDescriptor = styled("div")({
   width: '200px',
@@ -67,8 +55,6 @@ const Background = styled("div")({
   backgroundColor: 'white',
 });
 
-// rgba(230, 247, 255, 1)
-
 const Dropdown = styled("div")({
   display: 'flex',
   flexDirection: 'column',
@@ -76,9 +62,11 @@ const Dropdown = styled("div")({
   border: `1px solid rgba(0, 0, 0, 0.75)`,
   boxSizing: `border-box`,
   borderRadius: `5px`,
-  width: `830px`,
+  width: `400px`,
   height: `57px`,
 });
+
+
 
 function isValidDate(dateString, format) {
   return moment(dateString, format, true).isValid();
@@ -374,10 +362,10 @@ function SlipInput() {
         <Stack direction='row' justifyContent='space-evenly' spacing={2}>
           <Dropdown>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              labelId="order-select"
+              id="order-select"
               value={currentOrder}
-              label="Age"
+              label="Order"
               onChange={event => setCurrentOrder(event.target.value)}
               MenuProps={{ PaperProps: { sx: { maxHeight: 100 } } }}
             >

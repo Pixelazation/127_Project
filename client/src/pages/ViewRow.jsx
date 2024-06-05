@@ -13,8 +13,6 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/system/Stack';
 import Divider from '@mui/material/Divider';
-import { styled } from '@mui/system';
-import { Container } from '@mui/material';
 
 function ccyFormat(num) {
   return `${num.toFixed(2)}`;
@@ -24,15 +22,6 @@ function total(items) {
   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
 
-// const rows = [
-//     {id:'LIPID PANEL',price:825},
-//     {id:'HBA1C',price:770},
-//     {id:'SGOT',price:303},
-//     {id:'SGPT',price:303},
-//     {id:'BUN',price:303},
-//     {id:'BUA',price:303},
-//     {id:'CREATININE',price:330},
-// ];
 
 function ViewRow() {
   const [info, setInfo] = useState({
