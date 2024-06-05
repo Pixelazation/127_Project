@@ -1,262 +1,78 @@
 import React from 'react';
 import ResponsiveAppBar from '../components/NavBar';
 import { DataGrid } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
 
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import CCH from '../testAsset/images/homepage_photo_6217665382819412830_m_removebg_preview_1.png';
+import { styled } from '@mui/material/styles';
 
-import {
-  styled
-} from '@mui/material/styles';
-
-import {Select} from "@mui/material";
-
-import TextField from '@mui/material/TextField';
+import { List, Select } from "@mui/material";
 
 import Button from '@mui/material/Button';
 
-const SlipPatientInfo11 = styled("div")({
-  backgroundColor: `rgba(230, 247, 255, 1)`,
-  display: `flex`,
-  position: `relative`,
-  isolation: `isolate`,
-  flexDirection: `row`,
-  width: `100vw`,
-  height: `100vh`,
-  justifyContent: `center`,
-  padding: `0px`,
-  boxSizing: `border-box`,
-  overflow: `hidden`,
-});
+import { Box, Stack, TextField } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
 
-const SlipInformation = styled("div")({
-  textAlign: `center`,
-  whiteSpace: `pre-wrap`,
-  fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
-  fontStyle: `normal`,
-  fontFamily: `Droid Sans`,
-  fontWeight: `400`,
-  fontSize: `24px`,
-  letterSpacing: `0px`,
-  textDecoration: `none`,
-  textTransform: `none`,
-  width: `188px`,
-  height: `52px`,
-  position: `absolute`,
-  left: `296px`,
-  top: `100px`,
-});
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
-const Requests = styled("div")({
-  textAlign: `center`,
-  whiteSpace: `pre-wrap`,
-  fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
-  fontStyle: `normal`,
-  fontFamily: `Droid Sans`,
-  fontWeight: `400`,
-  fontSize: `24px`,
-  letterSpacing: `0px`,
-  textDecoration: `none`,
-  textTransform: `none`,
-  width: `104px`,
-  height: `52px`,
-  position: `absolute`,
-  left: `296px`,
-  top: `540px`,
-});
-
-const TopBar = styled("div")({
-  height: `80px`,
-  width: `100vw`,
-  position: `absolute`,
-  backgroundColor: 'rgba(146, 193, 240, 1)',
-  zIndex: '-5',
-});
-
-const SubmitSlip = styled("div")({
+const TextBox = styled("div")({
+  marginLeft: 'auto',
+  marginRight: 'auto',
   display: 'flex',
-  justifyContent:'center',
-  position: 'absolute',
-  textAlign: `center`,
-  whiteSpace: `pre-wrap`,
-  fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
-  fontStyle: `normal`,
-  fontFamily: `Droid Sans`,
-  fontWeight: `400`,
-  fontSize: `32px`,
-  letterSpacing: `0px`,
-  textDecoration: `none`,
-  textTransform: `none`,
-  top: '950px',
+  flexDirection: 'column',
+  width: '500px',
+  height: '55px',
+  backgroundColor: 'rgba(243, 243, 243, 1)',
+  position: 'relative',
+  borderRadius: '5px',
+});
+
+const AppendText = styled("div")({
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  display: 'flex',
+  justifyContent: 'center',
+  flexDirection: 'row',
+  width: '600px',
+  height: '55px',
+  position: 'relative',
+  borderRadius: '5px', 
+});
+
+const MainDescriptor = styled("div")({
+  width: '200px',
   height: '50px',
-  width: '300px',
-});
-
-const Logo = styled("img")({
-  height: `58px`,
-  width: `53.83px`,
-  objectFit: `cover`,
-  position: `absolute`,
-  left: `12px`,
-  top: `9px`,
-  zIndex: '1',
-});
-
-const CCHText = styled("div")({
-  textAlign: `center`,
-  whiteSpace: `pre-wrap`,
-  fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
-  fontStyle: `normal`,
-  fontFamily: `JejuMyeongjo`,
-  fontWeight: `400`,
-  fontSize: `40px`,
-  letterSpacing: `0px`,
-  textDecoration: `none`,
-  textTransform: `none`,
-  width: `150px`,
-  height: `52px`,
-  position: `absolute`,
-  left: `26px`,
-  top: `12px`,
-  zIndex: '1',
-});
-
-const GreyBox = styled("div")({
+  justifyContent: 'center',
   display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-evenly',
+  top: '100px',
+  alignItems: 'flex-end',
+  fontSize: 24
+});
+
+const Descriptor = styled("div")({
+  display: 'flex',
+  justifyContent: 'center',
+  width: '100px',
+  height: '55px',
+});
+
+const Background = styled("div")({
+  height: '1500px',
+  width: '100vw',
   alignItems: 'center',
-  backgroundColor: `rgba(206, 206, 206, 1)`,
-  border: `0.25px solid rgba(42, 92, 118, 1)`,
-  boxSizing: `border-box`,
-  borderRadius: `3px`,
-  width: `830px`,
-  height: `350px`,
-  position: `absolute`,
-  left: `302px`,
-  top: `150px`,
+  justifyContent: 'center',
+  backgroundColor: 'white',
 });
 
-const Date = styled("div")({
-  textAlign: `center`,
-  whiteSpace: `pre-wrap`,
-  fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
-  fontStyle: `normal`,
-  fontFamily: `Droid Sans`,
-  fontWeight: `400`,
-  fontSize: `20px`,
-  letterSpacing: `0px`,
-  textDecoration: `none`,
-  textTransform: `none`,
-  width: `120px`,
-  height: `52px`,
-  position: `absolute`,
-  left: '20px',
-});
-
-const FirstName = styled("div")({
-  textAlign: `center`,
-  whiteSpace: `pre-wrap`,
-  fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
-  fontStyle: `normal`,
-  fontFamily: `Droid Sans`,
-  fontWeight: `400`,
-  fontSize: `20px`,
-  letterSpacing: `0px`,
-  textDecoration: `none`,
-  textTransform: `none`,
-  width: `120px`,
-  height: `52px`,
-  position: `absolute`,
-  left: '20px',
-});
-
-const LastName = styled("div")({
-  textAlign: `center`,
-  whiteSpace: `pre-wrap`,
-  fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
-  fontStyle: `normal`,
-  fontFamily: `Droid Sans`,
-  fontWeight: `400`,
-  fontSize: `20px`,
-  letterSpacing: `0px`,
-  textDecoration: `none`,
-  textTransform: `none`,
-  width: `120px`,
-  height: `52px`,
-  position: `absolute`,
-  left: '20px'
-});
-
-const Doctor = styled("div")({
-  textAlign: `center`,
-  whiteSpace: `pre-wrap`,
-  fontSynthesis: `none`,
-  color: `rgba(0, 0, 0, 1)`,
-  fontStyle: `normal`,
-  fontFamily: `Droid Sans`,
-  fontWeight: `400`,
-  fontSize: `20px`,
-  letterSpacing: `0px`,
-  textDecoration: `none`,
-  textTransform: `none`,
-  width: `120px`,
-  height: `36px`,
-  position: `absolute`,
-  left: '20px',
-});
-
-const TextField0 = styled("div")({
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: `rgba(243, 243, 243, 1)`,
-  border: `1px solid rgba(0, 0, 0, 0.75)`,
-  boxSizing: `border-box`,
-  borderRadius: `3px`,
-  width: `500px`,
-  height: `58px`,
-});
-
-const TextField1 = styled("div")({
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: `rgba(243, 243, 243, 1)`,
-  border: `1px solid rgba(0, 0, 0, 0.75)`,
-  boxSizing: `border-box`,
-  borderRadius: `3px`,
-  width: `500px`,
-  height: `58px`,
-});
-
-const TextField2 = styled("div")({
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: `rgba(243, 243, 243, 1)`,
-  border: `1px solid rgba(0, 0, 0, 0.75)`,
-  boxSizing: `border-box`,
-  borderRadius: `3px`,
-  width: `500px`,
-  height: `58px`,
-});
-
-const TextField3 = styled("div")({
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: `rgba(243, 243, 243, 1)`,
-  border: `1px solid rgba(0, 0, 0, 0.75)`,
-  boxSizing: `border-box`,
-  borderRadius: `3px`,
-  width: `500px`,
-  height: `58px`,
-});
+// rgba(230, 247, 255, 1)
 
 const Dropdown = styled("div")({
   display: 'flex',
@@ -264,102 +80,162 @@ const Dropdown = styled("div")({
   backgroundColor: `rgba(243, 243, 243, 1)`,
   border: `1px solid rgba(0, 0, 0, 0.75)`,
   boxSizing: `border-box`,
-  borderRadius: `3px`,
+  borderRadius: `5px`,
   width: `830px`,
   height: `57px`,
-  position: `absolute`,
-  top: '590px',
 });
 
-const BoxThing = styled("div")({
-  display: `flex`,
-  position: `fixed`,
-  flexDirection: `column`,
-  justifyContent: `center`,
-  alignItems: `center`,
-  alignContent: 'center',
-  padding: `0px`,
-  boxSizing: `border-box`,
-  width: '1440px',
-  height: '10px',
-});
 
-const Back = styled("div")({
-  display: 'flex',
-  position: 'absolute',
-  height: '80px',
-  width: '70px',
-  top: '0px',
-  right: '0px',
-});
 
 function SlipPatientInfo1() {
+  //let navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
+  const [currentOrder, setCurrentOrder] = useState("");
+  const [requestList, setRequestList] = useState([]);
 
-  let navigate = useNavigate();
+  const columns = [
+    {field: 'id', headerName: 'Requests', width: 350 },
+    {field: 'delete', headerName:'Delete', width:100, sortable:false, 
+      renderCell: (params) => {
+        async function onClick(e) {
+          e.stopPropagation(); // don't select this row after clicking
+          // await deleteRow(params.row.id);
+        };
+      return <Button onClick={onClick}><DeleteIcon/></Button>;
+      }
+    },
+  ];
 
-  return (
-    <SlipPatientInfo11>
-      {/* <TopBar/> */}
-      <ResponsiveAppBar buttonDisplay="inline"/>
-      <div></div>
-      {/* <Back>
-        <Button variant="contained"onClick={() => {navigate("/");}}>Back</Button>
-      </Back>
+  // This method fetches the records from the database.
+  useEffect(() => {
+    async function getOrders() {
+      const response = await fetch("http://localhost:3000/orders");
+    
+      if (!response.ok) {
+        const message = `An error occurred: ${response.statusText}`;
+        console.error(message);
+        return;
+      }
+    
+      var records = await response.json();
+    
+      setOrders(records);
+    }
 
-      <Logo src={CCH} loading='lazy' alt={"Logo"}/>
-      <CCHText>
-        {`CCH`}
-      </CCHText> */}
-        
-      <BoxThing>
-        <SlipInformation>
-          {`Slip Information`}
-        </SlipInformation>
-        <Requests>
-          {`Requests`}
-        </Requests>
-        <SubmitSlip>
-          <Button variant="contained"onClick={() => {navigate("/USure");}}>Submit Slip</Button>
-        </SubmitSlip>
+    getOrders();
+  }, [requestList.length]);
 
-        <GreyBox>
-          <TextField0>
-            <TextField id="outlined-basic" variant="outlined" />
-            <Date>
-              {`Date:`}
-            </Date>
-          </TextField0>
+  function orderList() {
+    const menu = orders.map(order => {
+      return <MenuItem id={order.SERV_NAME} value={order.SERV_NAME}>{order.SERV_NAME}</MenuItem>
+    });
 
-          <TextField1>
-            <TextField id="outlined-basic" variant="outlined" />
-            <FirstName>
-              {`First Name:`}
-            </FirstName>
-          </TextField1>   
-
-          <TextField2>
-            <TextField id="outlined-basic" variant="outlined" />
-            <LastName>
-              {`Last Name:`}
-            </LastName>
-          </TextField2>
-
-          <TextField3>
-            <TextField id="outlined-basic" variant="outlined" />
-            <Doctor>
-              {`Doctor:`}
-            </Doctor>
-          </TextField3>
-
-        </GreyBox>
-        <Dropdown>
-          <Select/>
-        </Dropdown>
-      </BoxThing>
-    </SlipPatientInfo11>);
-
+    return menu;
   }
 
-export default SlipPatientInfo1;
+  function addRequest() {
+    setRequestList(requestList.concat({id: currentOrder}));
+    console.log(requestList);
+  }
 
-  
+  return (
+    <Background>
+      <Stack 
+        direction='column' 
+        spacing={3}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        sx={{ width: '100%' }}
+      >
+        <ResponsiveAppBar buttonDisplay="inline"/>
+        <MainDescriptor>Slip Information</MainDescriptor>
+        <Box sx={{
+          bgcolor: 'rgba(201, 223, 234, 1)',
+          height: '350px',
+          width: '1000px',
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}>
+          <AppendText>
+            <Descriptor>
+              {`Date:`}
+            </Descriptor>
+            <TextBox>
+              <TextField id="date" variant="outlined" placeholder="YYYY-MM-DD"/>
+            </TextBox>
+          </AppendText>
+          <AppendText>
+            <Descriptor>
+              {`First Name:`}
+            </Descriptor>
+            <TextBox>
+              <TextField id="fname" variant="outlined" placeholder='Juan'/>
+            </TextBox>
+          </AppendText>
+          <AppendText>
+            <Descriptor>
+              {`Last Name:`}
+            </Descriptor>
+            <TextBox>
+              <TextField id="lname" variant="outlined" placeholder='Dela Cruz'/>
+            </TextBox>
+          </AppendText>
+          <AppendText>
+            <Descriptor>
+              {`Doctor:`}
+            </Descriptor>
+            <TextBox>
+              <TextField id="doctor" variant="outlined" placeholder='Dee'/>
+            </TextBox>
+          </AppendText>
+          <AppendText>
+            <Descriptor>
+              {`Company:`}
+            </Descriptor>
+            <TextBox>
+              <TextField id="company" variant="outlined" placeholder='(Optional)'/>
+            </TextBox>
+          </AppendText>
+        </Box>
+
+        <MainDescriptor>Requests</MainDescriptor>
+        <Stack direction='row' justifyContent='space-evenly' spacing={2}>
+          <Dropdown>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={currentOrder}
+              label="Age"
+              onChange={event => setCurrentOrder(event.target.value)}
+              MenuProps={{ PaperProps: { sx: { maxHeight: 100 } } }}
+            >
+              {orderList()}
+            </Select>
+          </Dropdown>
+          <Button variant="contained" onClick={() => {addRequest()}}>Add</Button>
+        </Stack>
+
+
+        <div style={{ height: '100%', width: '100%', margin: "auto", padding:"10px 300px 0px 300px"}}>
+          <DataGrid
+            rows={requestList}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+          />
+        </div>
+        
+        <Button variant="contained"onClick={() => {navigate("/USure");}}>Submit Slip</Button>
+      </Stack>
+    </Background>
+  );
+}
+
+export default SlipPatientInfo1;
