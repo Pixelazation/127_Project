@@ -83,7 +83,7 @@ function isValidDate(dateString, format) {
   return moment(dateString, format, true).isValid();
 }
 
-function SlipPatientInfo1() {
+function SlipInput() {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -379,4 +379,4 @@ function SlipPatientInfo1() {
   );
 }
 
-export default SlipPatientInfo1;
+export default SlipInput;
