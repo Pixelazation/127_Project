@@ -1,6 +1,7 @@
 import React from 'react';
 import ResponsiveAppBar from '../components/NavBar';
 import { DataGrid } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +14,14 @@ import Button from '@mui/material/Button';
 
 import { Box, Stack, TextField } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const TextBox = styled("div")({
   marginLeft: 'auto',
@@ -60,8 +69,10 @@ const Background = styled("div")({
   width: '100vw',
   alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor: 'rgba(230, 247, 255, 1)',
+  backgroundColor: 'white',
 });
+
+// rgba(230, 247, 255, 1)
 
 const Dropdown = styled("div")({
   display: 'flex',
@@ -75,11 +86,25 @@ const Dropdown = styled("div")({
 });
 
 
+
 function SlipPatientInfo1() {
   //let navigate = useNavigate();
   const [orders, setOrders] = useState([]);
+  const [currentOrder, setCurrentOrder] = useState("");
   const [requestList, setRequestList] = useState([]);
 
+  const columns = [
+    {field: 'id', headerName: 'Requests', width: 350 },
+    {field: 'delete', headerName:'Delete', width:100, sortable:false, 
+      renderCell: (params) => {
+        async function onClick(e) {
+          e.stopPropagation(); // don't select this row after clicking
+          // await deleteRow(params.row.id);
+        };
+      return <Button onClick={onClick}><DeleteIcon/></Button>;
+      }
+    },
+  ];
 
   // This method fetches the records from the database.
   useEffect(() => {
@@ -98,7 +123,7 @@ function SlipPatientInfo1() {
     }
 
     getOrders();
-  }, [orders.length]);
+  }, [requestList.length]);
 
   function orderList() {
     const menu = orders.map(order => {
@@ -106,6 +131,11 @@ function SlipPatientInfo1() {
     });
 
     return menu;
+  }
+
+  function addRequest() {
+    setRequestList(requestList.concat({id: currentOrder}));
+    console.log(requestList);
   }
 
   return (
@@ -177,20 +207,30 @@ function SlipPatientInfo1() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              // value={age}
+              value={currentOrder}
               label="Age"
-              // onChange={handleChange}
+              onChange={event => setCurrentOrder(event.target.value)}
               MenuProps={{ PaperProps: { sx: { maxHeight: 100 } } }}
             >
               {orderList()}
             </Select>
           </Dropdown>
-          <Button variant="contained" onClick={() => {navigate("/USure");}}>Add</Button>
+          <Button variant="contained" onClick={() => {addRequest()}}>Add</Button>
         </Stack>
 
-        <List>
-          
-        </List>
+
+        <div style={{ height: '100%', width: '100%', margin: "auto", padding:"10px 300px 0px 300px"}}>
+          <DataGrid
+            rows={requestList}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+          />
+        </div>
         
         <Button variant="contained"onClick={() => {navigate("/USure");}}>Submit Slip</Button>
       </Stack>
