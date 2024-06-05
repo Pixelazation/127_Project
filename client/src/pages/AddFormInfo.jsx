@@ -15,13 +15,7 @@ import Button from '@mui/material/Button';
 import { Box, Stack, TextField } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import moment from 'moment/moment';
 
 const TextBox = styled("div")({
   marginLeft: 'auto',
@@ -85,10 +79,20 @@ const Dropdown = styled("div")({
   height: `57px`,
 });
 
-
+function isValidDate(dateString, format) {
+  return moment(dateString, format, true).isValid();
+}
 
 function SlipPatientInfo1() {
   //let navigate = useNavigate();
+  const [form, setForm] = useState({
+    date: "",
+    fname: "",
+    lname: "",
+    doctor: "",
+    company: ""
+  });
+  const [isNew, setIsNew] = useState(true);
   const [orders, setOrders] = useState([]);
   const [currentOrder, setCurrentOrder] = useState("");
   const [requestList, setRequestList] = useState([]);
@@ -122,8 +126,35 @@ function SlipPatientInfo1() {
       setOrders(records);
     }
 
+    async function fetchData() {
+      const id = params.id?.toString() || undefined;
+      if(!id) return;
+      setIsNew(false);
+      const response = await fetch(
+        `http://localhost:3000/slips/${params.id.toString()}`
+      );
+      if (!response.ok) {
+        const message = `An error has occurred: ${response.statusText}`;
+        console.error(message);
+        return;
+      }
+      const record = await response.json();
+      if (!record) {
+        console.warn(`Record with id ${id} not found`);
+        navigate("/");
+        return;
+      }
+      setForm(record);
+    }
+
     getOrders();
   }, [requestList.length]);
+
+  function updateForm(value) {
+    return setForm((prev) => {
+      return { ...prev, ...value };
+    });
+  }
 
   function orderList() {
     const menu = orders.map(order => {
@@ -136,6 +167,34 @@ function SlipPatientInfo1() {
   function addRequest() {
     setRequestList(requestList.concat({id: currentOrder}));
     console.log(requestList);
+  }
+
+  // Form submission
+  function validateForm() {
+    // Non-empty values
+    for (key in form) {
+      if (key != "company" && form[key] == "")
+        return false;
+    }
+
+    // Valid date
+    if (!isValidDate(form.date, "YYYY-MM-DD"))
+      return false;
+
+    // At least one submission
+    if (requestList.length == 0)
+      return false;
+
+    return true;
+  }
+
+  async function handleSubmit() {
+    if (!validateForm) {
+      console.log("not valid!");
+      return;
+    }
+
+
   }
 
   return (
@@ -164,7 +223,13 @@ function SlipPatientInfo1() {
               {`Date:`}
             </Descriptor>
             <TextBox>
-              <TextField id="date" variant="outlined" placeholder="YYYY-MM-DD"/>
+              <TextField 
+                id="date" 
+                variant="outlined" 
+                placeholder="YYYY-MM-DD" 
+                value = {form.date}
+                onChange={e => updateForm({date: e.target.value})}
+              />
             </TextBox>
           </AppendText>
           <AppendText>
@@ -172,7 +237,13 @@ function SlipPatientInfo1() {
               {`First Name:`}
             </Descriptor>
             <TextBox>
-              <TextField id="fname" variant="outlined" placeholder='Juan'/>
+              <TextField 
+                id="fname" 
+                variant="outlined" 
+                placeholder='Juan'
+                value = {form.fname}
+                onChange={e => updateForm({fname: e.target.value})}
+              />
             </TextBox>
           </AppendText>
           <AppendText>
@@ -180,7 +251,13 @@ function SlipPatientInfo1() {
               {`Last Name:`}
             </Descriptor>
             <TextBox>
-              <TextField id="lname" variant="outlined" placeholder='Dela Cruz'/>
+              <TextField 
+                id="lname" 
+                variant="outlined" 
+                placeholder='Dela Cruz'
+                value = {form.lname}
+                onChange={e => updateForm({lname: e.target.value})}
+              />
             </TextBox>
           </AppendText>
           <AppendText>
@@ -188,7 +265,12 @@ function SlipPatientInfo1() {
               {`Doctor:`}
             </Descriptor>
             <TextBox>
-              <TextField id="doctor" variant="outlined" placeholder='Dee'/>
+              <TextField 
+                id="doctor" 
+                variant="outlined" 
+                placeholder='Dee'
+                value = {form.doctor}
+                onChange={e => updateForm({doctor: e.target.value})}/>
             </TextBox>
           </AppendText>
           <AppendText>
@@ -196,7 +278,12 @@ function SlipPatientInfo1() {
               {`Company:`}
             </Descriptor>
             <TextBox>
-              <TextField id="company" variant="outlined" placeholder='(Optional)'/>
+              <TextField 
+                id="company" 
+                variant="outlined" 
+                placeholder='(Optional)'
+                value = {form.company}
+                onChange={e => updateForm({company: e.target.value})}/>
             </TextBox>
           </AppendText>
         </Box>
@@ -232,7 +319,7 @@ function SlipPatientInfo1() {
           />
         </div>
         
-        <Button variant="contained"onClick={() => {navigate("/USure");}}>Submit Slip</Button>
+        <Button variant="contained"onClick={() => console.log(form)}>Submit Slip</Button>
       </Stack>
     </Background>
   );
