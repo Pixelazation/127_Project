@@ -75,17 +75,17 @@ export default function HomePage() {
       renderCell: (params) => {
         const onClick = (e) => {
           e.stopPropagation(); // don't select this row after clicking
-          const api = params.api;
-          const thisRow = {};
-          api
-          .getAllColumns()
-          .filter((c) => c.field !== "__check__" && !!c)
-          .forEach(
-            (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
-          );
-          return alert(JSON.stringify(thisRow, null, 4));
+          // const api = params.api;
+          // const thisRow = {};
+          // api
+          // .getAllColumns()
+          // .filter((c) => c.field !== "__check__" && !!c)
+          // .forEach(
+          //   (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+          // );
+          // return alert(JSON.stringify(thisRow, null, 4));
         };
-      return <Button onClick={onClick} href="/ViewRow"><PreviewIcon/></Button>;
+      return <Button onClick={onClick} href={`/ViewRow/${params.row.id}`}><PreviewIcon/></Button>;
       }
     },
     {field: 'id', headerName: 'CS No.', width: 75 },
@@ -111,7 +111,7 @@ export default function HomePage() {
           e.stopPropagation(); // don't select this row after clicking
           await deleteRow(params.row.id);
         };
-      return <Button onClick={onClick}><DeleteIcon/></Button>;
+        return <Button onClick={onClick}><DeleteIcon/></Button>;
       }
     },
   ];

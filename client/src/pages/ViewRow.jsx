@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
 import React from 'react';
 import ResponsiveAppBar from '../components/NavBar';
 import Table from '@mui/material/Table';
@@ -21,19 +24,78 @@ function total(items) {
   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
 
-const rows = [
-    {id:'LIPID PANEL',price:825},
-    {id:'HBA1C',price:770},
-    {id:'SGOT',price:303},
-    {id:'SGPT',price:303},
-    {id:'BUN',price:303},
-    {id:'BUA',price:303},
-    {id:'CREATININE',price:330},
-];
-
-const Total = total(rows);
+// const rows = [
+//     {id:'LIPID PANEL',price:825},
+//     {id:'HBA1C',price:770},
+//     {id:'SGOT',price:303},
+//     {id:'SGPT',price:303},
+//     {id:'BUN',price:303},
+//     {id:'BUA',price:303},
+//     {id:'CREATININE',price:330},
+// ];
 
 function ViewRow() {
+  const [info, setInfo] = useState({
+    SLIP_ID: 1,
+    ORDER_DATE: "2023-10-02",
+    FNAME: "Levi",
+    LNAME: "Cruz",
+    DOCTOR: "M",
+    COMPANY: "ELINK"
+  });
+  const [rows, setRows] = useState([
+    {id: 0, price: 0}
+  ]);
+  const params = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchData(data) {
+      const id = params.id?.toString() || undefined;
+
+      if(!id) return;
+
+      console.log(id);
+      
+      const response = await fetch(
+        `http://localhost:3000/slip/${params.id.toString()}/${data}`
+      );
+
+      if (!response.ok) {
+        const message = `An error has occurred: ${response.statusText}`;
+        console.error(message);
+        return;
+      }
+
+      const record = await response.json();
+
+      if (!record) {
+        console.warn(`Record with id ${id} not found`);
+        navigate("/");
+        return;
+      }
+
+      return record;
+    }
+
+    async function loadPageData() {
+        const infoArr = await fetchData("info");
+        const orders = await fetchData("orders");
+
+        setInfo(infoArr[0]);
+        setRows(orders.map(order => {
+            return {
+                id: order.SERV_NAME,
+                price: parseInt(order.PRICE)
+            }
+        }));
+    }
+
+    loadPageData()
+
+    return;
+  }, [params.id, navigate]);
+
   return (
     <>
         <ResponsiveAppBar/>
@@ -42,12 +104,12 @@ function ViewRow() {
                     <Typography sx={{fontWeight:'bold'}} variant="h4" gutterBottom>Profile</Typography>
                     <Typography sx={{fontSize:'1.3rem'}}>
                         <Stack direction="row" spacing={7}>
-                            <div>CS Number: 0</div>                    
-                            <div>Date: 06/04/24</div>
+                            <div>CS Number: {info.SLIP_ID}</div>                    
+                            <div>Date: {info.ORDER_DATE}</div>
                         </Stack>
-                        Name: Dee, Francis Philippe<br/>
-                        Doctor: Dr Dee<br/>
-                        Company: Microsoft<br/>
+                        Name: {`${info.LNAME}, ${info.FNAME}`}<br/>
+                        Doctor: Dr {info.DOCTOR}<br/>
+                        {info.COMPANY != null ? `Company: ${info.COMPANY}` : ""}<br/>
                     </Typography>
                 </div>
             <Divider variant="middle" style={{ border: "1px solid green" }} />
@@ -70,7 +132,7 @@ function ViewRow() {
                                 ))}
                                 <TableRow style={{borderTop:'5px solid black', borderBottom:'2px solid white'}} >
                                     <TableCell sx={{fontWeight:'bold'}}>TOTAL</TableCell>
-                                    <TableCell sx={{fontWeight:'bold'}} align="right">{ccyFormat(Total)}</TableCell>
+                                    <TableCell sx={{fontWeight:'bold'}} align="right">{ccyFormat(total(rows))}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
