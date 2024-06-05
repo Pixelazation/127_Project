@@ -56,7 +56,7 @@ app.post("/slip", async(req, res) => {
 
     await db.query(`
         INSERT INTO orders VALUES
-        ${slip.requests.map(service => `((SELECT MAX(SLIP_ID) + 1 FROM slips), '${service}')`)}
+        ${slip.requests.map(service => `((SELECT MAX(SLIP_ID) FROM slips), '${service}')`)}
     `, {
         type: QueryTypes.INSERT
     });
