@@ -48,7 +48,7 @@ app.post("/slip", async(req, res) => {
         INSERT INTO slips VALUES
         (
             (SELECT MAX(SLIP_ID) + 1 FROM orders), '${slip.date}', '${slip.fname}', '${slip.lname}',
-            '${slip.doctor}', ${slip.company == "" ? 'null' : slip.company}
+            '${slip.doctor}', ${slip.company == "" ? 'null' : `'${slip.company}'`}
         );
     `, {
         type: QueryTypes.INSERT

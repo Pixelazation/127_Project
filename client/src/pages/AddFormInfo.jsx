@@ -105,7 +105,7 @@ function SlipPatientInfo1() {
       renderCell: (params) => {
         async function onClick(e) {
           e.stopPropagation(); // don't select this row after clicking
-          // await deleteRow(params.row.id);
+          setRequestList(requestList.filter(service => service.id != params.id));
         };
       return <Button onClick={onClick}><DeleteIcon/></Button>;
       }
@@ -174,6 +174,11 @@ function SlipPatientInfo1() {
   }
 
   function addRequest() {
+    const requests = requestList.map(req => req.id);
+    console.log(requests);
+
+    if (requests.includes(currentOrder)) return;
+
     setRequestList(requestList.concat({id: currentOrder}));
     console.log(requestList);
   }
