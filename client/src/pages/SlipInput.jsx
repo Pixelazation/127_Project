@@ -29,17 +29,17 @@ const TextBox = styled("div")({
   borderRadius: '5px',
 });
 
-const AppendText = styled("div")({
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  display: 'flex',
-  justifyContent: 'center',
-  flexDirection: 'row',
-  width: '600px',
-  height: '55px',
-  position: 'relative',
-  borderRadius: '5px', 
-});
+// const AppendText = styled("div")({
+//   marginLeft: 'auto',
+//   marginRight: 'auto',
+//   display: 'flex',
+//   justifyContent: 'center',
+//   flexDirection: 'row',
+//   width: '600px',
+//   height: '55px',
+//   position: 'relative',
+//   borderRadius: '5px', 
+// });
 
 const MainDescriptor = styled("div")({
   width: '200px',
@@ -53,8 +53,9 @@ const MainDescriptor = styled("div")({
 
 const Descriptor = styled("div")({
   display: 'flex',
-  justifyContent: 'center',
-  width: '100px',
+  justifyContent: 'left',
+  padding: '15px 0',
+  width: '120px',
   height: '55px',
 });
 
@@ -299,9 +300,9 @@ function SlipInput() {
           flexDirection: 'column',
           alignItems: 'center',
         }}>
-          <AppendText>
+          <Stack direction='row' alignItems='center'>
             <Descriptor>
-              {`Date:`}
+              {`Date`}
             </Descriptor>
             <TextBox>
               <TextField 
@@ -312,10 +313,10 @@ function SlipInput() {
                 onChange={e => updateForm({date: e.target.value})}
               />
             </TextBox>
-          </AppendText>
-          <AppendText>
+          </Stack>
+          <Stack direction='row' alignItems='center'>
             <Descriptor>
-              {`First Name:`}
+              {`First Name`}
             </Descriptor>
             <TextBox>
               <TextField 
@@ -326,10 +327,10 @@ function SlipInput() {
                 onChange={e => updateForm({fname: e.target.value})}
               />
             </TextBox>
-          </AppendText>
-          <AppendText>
+          </Stack>
+          <Stack direction='row' alignItems='center'>
             <Descriptor>
-              {`Last Name:`}
+              {`Last Name`}
             </Descriptor>
             <TextBox>
               <TextField 
@@ -340,10 +341,10 @@ function SlipInput() {
                 onChange={e => updateForm({lname: e.target.value})}
               />
             </TextBox>
-          </AppendText>
-          <AppendText>
+          </Stack>
+          <Stack direction='row' alignItems='center'>
             <Descriptor>
-              {`Doctor:`}
+              {`Doctor`}
             </Descriptor>
             <TextBox>
               <TextField 
@@ -353,10 +354,10 @@ function SlipInput() {
                 value = {form.doctor}
                 onChange={e => updateForm({doctor: e.target.value})}/>
             </TextBox>
-          </AppendText>
-          <AppendText>
+          </Stack>
+          <Stack direction='row' alignItems='center'>
             <Descriptor>
-              {`Company:`}
+              {`Company`}
             </Descriptor>
             <TextBox>
               <TextField 
@@ -366,7 +367,7 @@ function SlipInput() {
                 value = {form.company}
                 onChange={e => updateForm({company: e.target.value})}/>
             </TextBox>
-          </AppendText>
+          </Stack>
         </Box>
 
         <MainDescriptor>Requests</MainDescriptor>
