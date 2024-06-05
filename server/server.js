@@ -7,6 +7,7 @@ const PORT = 3000;
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 app.listen(PORT);
 
@@ -23,6 +24,44 @@ app.get("/slip", async(req, res) => {
 
     res.send(results);
     console.log(results);
+})
+
+app.post("/slip", async(req, res) => {
+    const slip = {
+        date: req.body.date,
+        fname: req.body.fname,
+        lname: req.body.lname,
+        doctor: req.body.doctor,
+        company: req.body.company,
+        requests: req.body.requests
+    }
+
+    // const idResponse = await db.query(`
+    //     SELECT MAX(SLIP_ID) + 1 as 'id' FROM slips;
+    // `, {
+    //     type: QueryTypes.SELECT
+    // });
+
+    // console.log(idResponse);
+
+    await db.query(`
+        INSERT INTO slips VALUES
+        (
+            (SELECT MAX(SLIP_ID) + 1 FROM orders), '${slip.date}', '${slip.fname}', '${slip.lname}',
+            '${slip.doctor}', ${slip.company == "" ? 'null' : slip.company}
+        );
+    `, {
+        type: QueryTypes.INSERT
+    });
+
+    await db.query(`
+        INSERT INTO orders VALUES
+        ${slip.requests.map(service => `((SELECT MAX(SLIP_ID) + 1 FROM slips), '${service}')`)}
+    `, {
+        type: QueryTypes.INSERT
+    });
+
+    res.send("");
 })
 
 app.delete("/slip/:id", async(req, res) => {

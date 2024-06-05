@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { styled } from '@mui/material/styles';
 
@@ -84,7 +84,9 @@ function isValidDate(dateString, format) {
 }
 
 function SlipPatientInfo1() {
-  //let navigate = useNavigate();
+  const params = useParams();
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     date: "",
     fname: "",
@@ -131,7 +133,7 @@ function SlipPatientInfo1() {
       if(!id) return;
       setIsNew(false);
       const response = await fetch(
-        `http://localhost:3000/slips/${params.id.toString()}`
+        `http://localhost:3000/slips/${id}`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -140,15 +142,22 @@ function SlipPatientInfo1() {
       }
       const record = await response.json();
       if (!record) {
-        console.warn(`Record with id ${id} not found`);
+        console.warn(`Slip with id ${id} not found`);
         navigate("/");
         return;
       }
-      setForm(record);
+
+      setForm({
+        date: record.ORDER_DATE,
+        fname: record.FNAME,
+        lname: record.LNAME,
+        doctor: record.DOCTOR,
+        company: record.COMPANY
+      });
     }
 
     getOrders();
-  }, [requestList.length]);
+  }, [params.id]);
 
   function updateForm(value) {
     return setForm((prev) => {
@@ -172,7 +181,8 @@ function SlipPatientInfo1() {
   // Form submission
   function validateForm() {
     // Non-empty values
-    for (key in form) {
+    for (let key in form) {
+      console.log("doing " + key);
       if (key != "company" && form[key] == "")
         return false;
     }
@@ -189,12 +199,51 @@ function SlipPatientInfo1() {
   }
 
   async function handleSubmit() {
-    if (!validateForm) {
+    if (!validateForm()) {
       console.log("not valid!");
       return;
     }
 
+    const slipInfo = { ...form, requests: requestList.length > 0 ? requestList.map(req => req.id) : []};
+    console.log(slipInfo);
+    try {
+      let response;
+      if (isNew) {
+        // if we are adding a new record we will POST
+        response = await fetch(`http://localhost:3000/slip`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(slipInfo),
+        });
+      } else {
+        // if we are updating a record we will PATCH
+        response = await fetch(`http://localhost:3000/slip/${params.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(slipInfo),
+        });
+      }
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('A problem occurred with your fetch operation: ', error);
+    } finally {
+      setForm({
+        date: "",
+        fname: "",
+        lname: "",
+        doctor: "",
+        company: ""
+      });
+      setRequestList([]);
+      navigate("/");
+    }
   }
 
   return (
@@ -319,7 +368,7 @@ function SlipPatientInfo1() {
           />
         </div>
         
-        <Button variant="contained"onClick={() => console.log(form)}>Submit Slip</Button>
+        <Button variant="contained"onClick={() => handleSubmit()}>Submit Slip</Button>
       </Stack>
     </Background>
   );
