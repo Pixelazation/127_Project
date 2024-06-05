@@ -69,9 +69,8 @@ app.get("/slip/:id/info", async(req, res) => {
         type: QueryTypes.SELECT
     });
 
-    console.log("deleted!");
-    res.send(id);
-    console.log("sent!");
+    res.send(results);
+    console.log(results);
 })
 
 
