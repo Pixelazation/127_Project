@@ -2,15 +2,17 @@ import React from 'react';
 import ResponsiveAppBar from '../components/NavBar';
 import { DataGrid } from '@mui/x-data-grid';
 
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { styled } from '@mui/material/styles';
 
-import { Select } from "@mui/material";
+import { List, Select } from "@mui/material";
 
 import Button from '@mui/material/Button';
 
 import { Box, Stack, TextField } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
 
 const TextBox = styled("div")({
   marginLeft: 'auto',
@@ -75,6 +77,36 @@ const Dropdown = styled("div")({
 
 function SlipPatientInfo1() {
   //let navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
+  const [requestList, setRequestList] = useState([]);
+
+
+  // This method fetches the records from the database.
+  useEffect(() => {
+    async function getOrders() {
+      const response = await fetch("http://localhost:3000/orders");
+    
+      if (!response.ok) {
+        const message = `An error occurred: ${response.statusText}`;
+        console.error(message);
+        return;
+      }
+    
+      var records = await response.json();
+    
+      setOrders(records);
+    }
+
+    getOrders();
+  }, [orders.length]);
+
+  function orderList() {
+    const menu = orders.map(order => {
+      return <MenuItem id={order.SERV_NAME} value={order.SERV_NAME}>{order.SERV_NAME}</MenuItem>
+    });
+
+    return menu;
+  }
 
   return (
     <Background>
@@ -102,7 +134,7 @@ function SlipPatientInfo1() {
               {`Date:`}
             </Descriptor>
             <TextBox>
-              <TextField id="outlined-basic" variant="outlined" />
+              <TextField id="date" variant="outlined" placeholder="YYYY-MM-DD"/>
             </TextBox>
           </AppendText>
           <AppendText>
@@ -110,7 +142,7 @@ function SlipPatientInfo1() {
               {`First Name:`}
             </Descriptor>
             <TextBox>
-              <TextField id="outlined-basic" variant="outlined" />
+              <TextField id="fname" variant="outlined" placeholder='Juan'/>
             </TextBox>
           </AppendText>
           <AppendText>
@@ -118,7 +150,7 @@ function SlipPatientInfo1() {
               {`Last Name:`}
             </Descriptor>
             <TextBox>
-              <TextField id="outlined-basic" variant="outlined" />
+              <TextField id="lname" variant="outlined" placeholder='Dela Cruz'/>
             </TextBox>
           </AppendText>
           <AppendText>
@@ -126,14 +158,40 @@ function SlipPatientInfo1() {
               {`Doctor:`}
             </Descriptor>
             <TextBox>
-              <TextField id="outlined-basic" variant="outlined" />
+              <TextField id="doctor" variant="outlined" placeholder='Dee'/>
+            </TextBox>
+          </AppendText>
+          <AppendText>
+            <Descriptor>
+              {`Company:`}
+            </Descriptor>
+            <TextBox>
+              <TextField id="company" variant="outlined" placeholder='(Optional)'/>
             </TextBox>
           </AppendText>
         </Box>
+
         <MainDescriptor>Requests</MainDescriptor>
-        <Dropdown>
-          <Select/>
-        </Dropdown>
+        <Stack direction='row' justifyContent='space-evenly' spacing={2}>
+          <Dropdown>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              // value={age}
+              label="Age"
+              // onChange={handleChange}
+              MenuProps={{ PaperProps: { sx: { maxHeight: 100 } } }}
+            >
+              {orderList()}
+            </Select>
+          </Dropdown>
+          <Button variant="contained" onClick={() => {navigate("/USure");}}>Add</Button>
+        </Stack>
+
+        <List>
+          
+        </List>
+        
         <Button variant="contained"onClick={() => {navigate("/USure");}}>Submit Slip</Button>
       </Stack>
     </Background>
