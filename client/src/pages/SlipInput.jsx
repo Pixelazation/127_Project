@@ -83,7 +83,7 @@ function isValidDate(dateString, format) {
   return moment(dateString, format, true).isValid();
 }
 
-function SlipPatientInfo1() {
+function SlipInput() {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -133,7 +133,7 @@ function SlipPatientInfo1() {
       if(!id) return;
       setIsNew(false);
       const response = await fetch(
-        `http://localhost:3000/slips/${id}`
+        `http://localhost:3000/slip/${id}/info`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -148,18 +148,45 @@ function SlipPatientInfo1() {
       }
 
       setForm({
-        date: record.ORDER_DATE,
-        fname: record.FNAME,
-        lname: record.LNAME,
-        doctor: record.DOCTOR,
-        company: record.COMPANY
-      });
+        date: record[0].ORDER_DATE,
+        fname: record[0].FNAME,
+        lname: record[0].LNAME,
+        doctor: record[0].DOCTOR,
+        company: record[0].COMPANY
+      })
+    }
+
+    async function fetchRequests() {
+      const id = params.id?.toString() || undefined;
+      if(!id) return;
+      setIsNew(false);
+      const response = await fetch(
+        `http://localhost:3000/slip/${id}/orders`
+      );
+      if (!response.ok) {
+        const message = `An error has occurred: ${response.statusText}`;
+        console.error(message);
+        return;
+      }
+      const record = await response.json();
+      if (!record) {
+        console.warn(`Slip with id ${id} not found`);
+        navigate("/");
+        return;
+      }
+
+      setRequestList(record.map(req => {
+        return {id: req.SERV_NAME};
+      }))
     }
 
     getOrders();
+    fetchData();
+    fetchRequests();
   }, [params.id]);
 
   function updateForm(value) {
+    console.log(form);
     return setForm((prev) => {
       return { ...prev, ...value };
     });
@@ -379,4 +406,4 @@ function SlipPatientInfo1() {
   );
 }
 
-export default SlipPatientInfo1;
+export default SlipInput;

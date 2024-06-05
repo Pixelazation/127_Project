@@ -36,14 +36,6 @@ app.post("/slip", async(req, res) => {
         requests: req.body.requests
     }
 
-    // const idResponse = await db.query(`
-    //     SELECT MAX(SLIP_ID) + 1 as 'id' FROM slips;
-    // `, {
-    //     type: QueryTypes.SELECT
-    // });
-
-    // console.log(idResponse);
-
     await db.query(`
         INSERT INTO slips VALUES
         (
@@ -82,6 +74,46 @@ app.delete("/slip/:id", async(req, res) => {
     console.log("deleted!");
     res.send(id);
     console.log("sent!");
+})
+
+app.patch("/slip/:id", async(req, res) => {
+    const id = req.params.id
+    const slip = {
+        date: req.body.date,
+        fname: req.body.fname,
+        lname: req.body.lname,
+        doctor: req.body.doctor,
+        company: req.body.company,
+        requests: req.body.requests
+    }
+
+    // SLIP INFO
+    await db.query(`
+        UPDATE slips
+        SET
+            ORDER_DATE = '${slip.date}', FNAME = '${slip.fname}', LNAME = '${slip.lname}',
+            DOCTOR = '${slip.doctor}', COMPANY = '${slip.company}'
+        WHERE SLIP_ID = ${id};
+    `, {
+        type: QueryTypes.UPDATE
+    });
+
+    // SLIP REQUESTS
+    await db.query(`
+        INSERT IGNORE INTO orders VALUES
+        ${slip.requests.map(service => `(${id}, '${service}')`)}
+    `, {
+        type: QueryTypes.INSERT
+    });
+
+    await db.query(`
+        DELETE FROM orders
+        WHERE SLIP_ID = ${id} AND SERV_NAME NOT IN (${slip.requests.map(service => `'${service}'`)})
+    `, {
+        type: QueryTypes.DELETE
+    });
+
+    res.send(id);
 })
 
 app.get("/slip/:id/orders", async(req, res) => {
