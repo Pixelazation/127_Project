@@ -1,16 +1,27 @@
 import React from 'react';
 import ResponsiveAppBar from '../components/NavBar';
 import { DataGrid } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
 
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { styled } from '@mui/material/styles';
 
-import { Select } from "@mui/material";
+import { List, Select } from "@mui/material";
 
 import Button from '@mui/material/Button';
 
 import { Box, Stack, TextField } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const TextBox = styled("div")({
   marginLeft: 'auto',
@@ -58,8 +69,10 @@ const Background = styled("div")({
   width: '100vw',
   alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor: 'rgba(230, 247, 255, 1)',
+  backgroundColor: 'white',
 });
+
+// rgba(230, 247, 255, 1)
 
 const Dropdown = styled("div")({
   display: 'flex',
@@ -73,8 +86,57 @@ const Dropdown = styled("div")({
 });
 
 
+
 function SlipPatientInfo1() {
   //let navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
+  const [currentOrder, setCurrentOrder] = useState("");
+  const [requestList, setRequestList] = useState([]);
+
+  const columns = [
+    {field: 'id', headerName: 'Requests', width: 350 },
+    {field: 'delete', headerName:'Delete', width:100, sortable:false, 
+      renderCell: (params) => {
+        async function onClick(e) {
+          e.stopPropagation(); // don't select this row after clicking
+          // await deleteRow(params.row.id);
+        };
+      return <Button onClick={onClick}><DeleteIcon/></Button>;
+      }
+    },
+  ];
+
+  // This method fetches the records from the database.
+  useEffect(() => {
+    async function getOrders() {
+      const response = await fetch("http://localhost:3000/orders");
+    
+      if (!response.ok) {
+        const message = `An error occurred: ${response.statusText}`;
+        console.error(message);
+        return;
+      }
+    
+      var records = await response.json();
+    
+      setOrders(records);
+    }
+
+    getOrders();
+  }, [requestList.length]);
+
+  function orderList() {
+    const menu = orders.map(order => {
+      return <MenuItem id={order.SERV_NAME} value={order.SERV_NAME}>{order.SERV_NAME}</MenuItem>
+    });
+
+    return menu;
+  }
+
+  function addRequest() {
+    setRequestList(requestList.concat({id: currentOrder}));
+    console.log(requestList);
+  }
 
   return (
     <Background>
@@ -102,7 +164,7 @@ function SlipPatientInfo1() {
               {`Date:`}
             </Descriptor>
             <TextBox>
-              <TextField id="outlined-basic" variant="outlined" />
+              <TextField id="date" variant="outlined" placeholder="YYYY-MM-DD"/>
             </TextBox>
           </AppendText>
           <AppendText>
@@ -110,7 +172,7 @@ function SlipPatientInfo1() {
               {`First Name:`}
             </Descriptor>
             <TextBox>
-              <TextField id="outlined-basic" variant="outlined" />
+              <TextField id="fname" variant="outlined" placeholder='Juan'/>
             </TextBox>
           </AppendText>
           <AppendText>
@@ -118,7 +180,7 @@ function SlipPatientInfo1() {
               {`Last Name:`}
             </Descriptor>
             <TextBox>
-              <TextField id="outlined-basic" variant="outlined" />
+              <TextField id="lname" variant="outlined" placeholder='Dela Cruz'/>
             </TextBox>
           </AppendText>
           <AppendText>
@@ -126,14 +188,50 @@ function SlipPatientInfo1() {
               {`Doctor:`}
             </Descriptor>
             <TextBox>
-              <TextField id="outlined-basic" variant="outlined" />
+              <TextField id="doctor" variant="outlined" placeholder='Dee'/>
+            </TextBox>
+          </AppendText>
+          <AppendText>
+            <Descriptor>
+              {`Company:`}
+            </Descriptor>
+            <TextBox>
+              <TextField id="company" variant="outlined" placeholder='(Optional)'/>
             </TextBox>
           </AppendText>
         </Box>
+
         <MainDescriptor>Requests</MainDescriptor>
-        <Dropdown>
-          <Select/>
-        </Dropdown>
+        <Stack direction='row' justifyContent='space-evenly' spacing={2}>
+          <Dropdown>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={currentOrder}
+              label="Age"
+              onChange={event => setCurrentOrder(event.target.value)}
+              MenuProps={{ PaperProps: { sx: { maxHeight: 100 } } }}
+            >
+              {orderList()}
+            </Select>
+          </Dropdown>
+          <Button variant="contained" onClick={() => {addRequest()}}>Add</Button>
+        </Stack>
+
+
+        <div style={{ height: '100%', width: '100%', margin: "auto", padding:"10px 300px 0px 300px"}}>
+          <DataGrid
+            rows={requestList}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+          />
+        </div>
+        
         <Button variant="contained"onClick={() => {navigate("/USure");}}>Submit Slip</Button>
       </Stack>
     </Background>

@@ -51,3 +51,16 @@ app.delete("/slip/:id", async(req, res) => {
     res.send(id);
     console.log("sent!");
 })
+
+
+/* ORDERS */
+app.get("/orders", async(req, res) => {
+    const results = await db.query(`
+        SELECT SERV_NAME FROM services;
+    `, {
+        type: QueryTypes.SELECT
+    });
+
+    res.send(results);
+    console.log(results);
+})
