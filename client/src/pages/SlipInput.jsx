@@ -1,8 +1,6 @@
 import React from 'react';
 
 import ResponsiveAppBar from '../components/NavBar';
-import FormAlert from '../components/FormAlert';
-
 
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -416,7 +414,7 @@ function SlipInput() {
           </DialogTitle>
           <DialogContent>
           <DialogContentText id="alert-dialog-description">
-              You have not filled all required fields
+              You have missing required fields or an invalid date
           </DialogContentText>
           </DialogContent>
           <DialogActions>
