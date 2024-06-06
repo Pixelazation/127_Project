@@ -98,7 +98,7 @@ export default function HomePage() {
   return (
     <>
       <ResponsiveAppBar buttonDisplay="inline"/>
-      <div style={{ height: '300px', width: '100%', margin: "auto", padding:"4px"}}>
+      <div style={{ height: '600px', width: '100%', margin: "auto", padding:"4px"}}>
         <DataGrid
           rows={rows}
           columns={columns}

@@ -80,12 +80,6 @@ app.delete("/slip/:id", async(req, res) => {
         type: QueryTypes.DELETE
     });
 
-    await db.query(`
-        DELETE FROM orders WHERE SLIP_ID = ${id};
-    `, {
-        type: QueryTypes.DELETE
-    });
-
     console.log("deleted!");
     res.send(id);
     console.log("sent!");
