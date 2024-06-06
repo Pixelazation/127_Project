@@ -1,5 +1,7 @@
 import React from 'react';
+
 import ResponsiveAppBar from '../components/NavBar';
+
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -14,6 +16,12 @@ import Button from '@mui/material/Button';
 
 import { Box, Stack, TextField } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import moment from 'moment/moment';
 
@@ -83,10 +91,13 @@ function SlipInput() {
     doctor: "",
     company: ""
   });
+
   const [isNew, setIsNew] = useState(true);
   const [orders, setOrders] = useState([]);
   const [currentOrder, setCurrentOrder] = useState("");
   const [requestList, setRequestList] = useState([]);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const columns = [
     {field: 'id', headerName: 'Requests', width: 350 },
@@ -209,7 +220,7 @@ function SlipInput() {
     }
 
     // Valid date
-    if (!isValidDate(form.date, "YYYY-MM-DD"))
+    if (!isValidDate(form.date, "YYYY-MM-DD")) 
       return false;
 
     // At least one submission
@@ -222,6 +233,7 @@ function SlipInput() {
   async function handleSubmit() {
     if (!validateForm()) {
       console.log("not valid!");
+      setDialogOpen(true);
       return;
     }
 
@@ -268,131 +280,151 @@ function SlipInput() {
   }
 
   return (
-    <Background>
-      <Stack 
-        direction='column' 
-        spacing={3}
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        sx={{ width: '100%' }}
-      >
-        <ResponsiveAppBar buttonDisplay="inline"/>
-        <MainDescriptor>Slip Information</MainDescriptor>
-        <Box sx={{
-          bgcolor: 'rgba(201, 223, 234, 1)',
-          height: '350px',
-          width: '1000px',
-          display: 'flex',
-          justifyContent: 'space-evenly',
-          flexDirection: 'column',
-          alignItems: 'center',
-          borderRadius: '10px',
-        }}>
-          <Stack direction='row' alignItems='center'>
-            <Descriptor>
-              {`Date`}
-            </Descriptor>
-            <TextBox>
-              <TextField 
-                id="date" 
-                variant="outlined" 
-                placeholder="YYYY-MM-DD" 
-                value = {form.date}
-                onChange={e => updateForm({date: e.target.value})}
-              />
-            </TextBox>
-          </Stack>
-          <Stack direction='row' alignItems='center'>
-            <Descriptor>
-              {`First Name`}
-            </Descriptor>
-            <TextBox>
-              <TextField 
-                id="fname" 
-                variant="outlined" 
-                placeholder='Juan'
-                value = {form.fname}
-                onChange={e => updateForm({fname: e.target.value})}
-              />
-            </TextBox>
-          </Stack>
-          <Stack direction='row' alignItems='center'>
-            <Descriptor>
-              {`Last Name`}
-            </Descriptor>
-            <TextBox>
-              <TextField 
-                id="lname" 
-                variant="outlined" 
-                placeholder='Dela Cruz'
-                value = {form.lname}
-                onChange={e => updateForm({lname: e.target.value})}
-              />
-            </TextBox>
-          </Stack>
-          <Stack direction='row' alignItems='center'>
-            <Descriptor>
-              {`Doctor`}
-            </Descriptor>
-            <TextBox>
-              <TextField 
-                id="doctor" 
-                variant="outlined" 
-                placeholder='Dee'
-                value = {form.doctor}
-                onChange={e => updateForm({doctor: e.target.value})}/>
-            </TextBox>
-          </Stack>
-          <Stack direction='row' alignItems='center'>
-            <Descriptor>
-              {`Company`}
-            </Descriptor>
-            <TextBox>
-              <TextField 
-                id="company" 
-                variant="outlined" 
-                placeholder='(Optional)'
-                value = {form.company}
-                onChange={e => updateForm({company: e.target.value})}/>
-            </TextBox>
-          </Stack>
-        </Box>
+    <>
+      <Background>
+        <Stack 
+          direction='column' 
+          spacing={3}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          sx={{ width: '100%' }}
+        >
+          <ResponsiveAppBar buttonDisplay="inline"/>
+          <MainDescriptor>Slip Information</MainDescriptor>
+          <Box sx={{
+            bgcolor: 'rgba(201, 223, 234, 1)',
+            height: '350px',
+            width: '1000px',
+            display: 'flex',
+            justifyContent: 'space-evenly',
+            flexDirection: 'column',
+            alignItems: 'center',
+            borderRadius: '10px',
+          }}>
+            <Stack direction='row' alignItems='center'>
+              <Descriptor>
+                {`Date`}
+              </Descriptor>
+              <TextBox>
+                <TextField 
+                  id="date" 
+                  variant="outlined" 
+                  placeholder="YYYY-MM-DD" 
+                  value = {form.date}
+                  onChange={e => updateForm({date: e.target.value})}
+                />
+              </TextBox>
+            </Stack>
+            <Stack direction='row' alignItems='center'>
+              <Descriptor>
+                {`First Name`}
+              </Descriptor>
+              <TextBox>
+                <TextField 
+                  id="fname" 
+                  variant="outlined" 
+                  placeholder='Juan'
+                  value = {form.fname}
+                  onChange={e => updateForm({fname: e.target.value})}
+                />
+              </TextBox>
+            </Stack>
+            <Stack direction='row' alignItems='center'>
+              <Descriptor>
+                {`Last Name`}
+              </Descriptor>
+              <TextBox>
+                <TextField 
+                  id="lname" 
+                  variant="outlined" 
+                  placeholder='Dela Cruz'
+                  value = {form.lname}
+                  onChange={e => updateForm({lname: e.target.value})}
+                />
+              </TextBox>
+            </Stack>
+            <Stack direction='row' alignItems='center'>
+              <Descriptor>
+                {`Doctor`}
+              </Descriptor>
+              <TextBox>
+                <TextField 
+                  id="doctor" 
+                  variant="outlined" 
+                  placeholder='Dee'
+                  value = {form.doctor}
+                  onChange={e => updateForm({doctor: e.target.value})}/>
+              </TextBox>
+            </Stack>
+            <Stack direction='row' alignItems='center'>
+              <Descriptor>
+                {`Company`}
+              </Descriptor>
+              <TextBox>
+                <TextField 
+                  id="company" 
+                  variant="outlined" 
+                  placeholder='(Optional)'
+                  value = {form.company}
+                  onChange={e => updateForm({company: e.target.value})}/>
+              </TextBox>
+            </Stack>
+          </Box>
 
-        <MainDescriptor>Requests</MainDescriptor>
-        <Stack direction='row' justifyContent='space-evenly' spacing={2}>
-          <Dropdown>
-            <Select
-              labelId="order-select"
-              id="order-select"
-              value={currentOrder}
-              label="Order"
-              onChange={event => setCurrentOrder(event.target.value)}
-              MenuProps={{ PaperProps: { sx: { maxHeight: 100} } }}
-            >
-              {orderList()}
-            </Select>
-          </Dropdown>
-          <Button variant="contained" onClick={() => {addRequest()}}>Add</Button>
+          <MainDescriptor>Requests</MainDescriptor>
+          <Stack direction='row' justifyContent='space-evenly' spacing={2}>
+            <Dropdown>
+              <Select
+                labelId="order-select"
+                id="order-select"
+                value={currentOrder}
+                label="Order"
+                onChange={event => setCurrentOrder(event.target.value)}
+                MenuProps={{ PaperProps: { sx: { maxHeight: 100 } } }}
+              >
+                {orderList()}
+              </Select>
+            </Dropdown>
+            <Button variant="contained" onClick={() => {addRequest()}}>Add</Button>
+          </Stack>
+
+
+          <div style={{ height: '300px', width: '100%', margin: "auto", padding:"10px 300px 0px 300px"}}>
+            <DataGrid
+              rows={requestList}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 },
+                },
+              }}
+              pageSizeOptions={[5, 10]}
+            />
+          </div>
+          
+          <Button variant="contained"onClick={() => handleSubmit()}>Submit Slip</Button>
         </Stack>
-
-
-        <div style={{ height: '300px', width: '100%', margin: "auto",  padding:"10px 300px 0px 300px"}}>
-          <DataGrid
-            rows={requestList}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-          />
-        </div>
-        
-        <Button variant="contained"onClick={() => handleSubmit()}>Submit Slip</Button>
-      </Stack>
-    </Background>
+      </Background>
+      
+      <Dialog
+          open={dialogOpen}
+      >
+          <DialogTitle id="alert-dialog-title">
+              {"Error"}
+          </DialogTitle>
+          <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+              You have missing required fields or an invalid date
+          </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+          <Button onClick={() => setDialogOpen(false)} autoFocus>
+              Back to Form
+          </Button>
+          </DialogActions>
+        </Dialog>
+    </>
   );
 }
 
