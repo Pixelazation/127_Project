@@ -287,6 +287,7 @@ function SlipInput() {
           justifyContent: 'space-evenly',
           flexDirection: 'column',
           alignItems: 'center',
+          borderRadius: '10px',
         }}>
           <Stack direction='row' alignItems='center'>
             <Descriptor>
@@ -367,7 +368,7 @@ function SlipInput() {
               value={currentOrder}
               label="Order"
               onChange={event => setCurrentOrder(event.target.value)}
-              MenuProps={{ PaperProps: { sx: { maxHeight: 100 } } }}
+              MenuProps={{ PaperProps: { sx: { maxHeight: 100} } }}
             >
               {orderList()}
             </Select>
@@ -376,7 +377,7 @@ function SlipInput() {
         </Stack>
 
 
-        <div style={{ height: '100%', width: '100%', margin: "auto", padding:"10px 300px 0px 300px"}}>
+        <div style={{ height: '300px', width: '100%', margin: "auto",  padding:"10px 300px 0px 300px"}}>
           <DataGrid
             rows={requestList}
             columns={columns}
