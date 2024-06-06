@@ -36,15 +36,30 @@ app.post("/slip", async(req, res) => {
         requests: req.body.requests
     }
 
-    await db.query(`
-        INSERT INTO slips VALUES
-        (
-            (SELECT MAX(SLIP_ID) + 1 FROM orders), '${slip.date}', '${slip.fname}', '${slip.lname}',
-            '${slip.doctor}', ${slip.company == "" ? 'null' : `'${slip.company}'`}
-        );
-    `, {
-        type: QueryTypes.INSERT
-    });
+    try {
+        await db.query(`
+            INSERT INTO slips VALUES
+            (
+                (SELECT MAX(SLIP_ID) + 1 FROM orders), '${slip.date}', '${slip.fname}', '${slip.lname}',
+                '${slip.doctor}', ${slip.company == "" ? 'null' : `'${slip.company}'`}
+            );
+        `, {
+            type: QueryTypes.INSERT
+        });
+
+    } catch(error) {
+        console.log("No entries! Starting ID at 1...");
+        
+        await db.query(`
+            INSERT INTO slips VALUES
+            (
+                1, '${slip.date}', '${slip.fname}', '${slip.lname}',
+                '${slip.doctor}', ${slip.company == "" ? 'null' : `'${slip.company}'`}
+            );
+        `, {
+            type: QueryTypes.INSERT
+        });
+    }
 
     await db.query(`
         INSERT INTO orders VALUES
